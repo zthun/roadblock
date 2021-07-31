@@ -1,7 +1,21 @@
 {
-  "version": "0.1",
-  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/master/cspell.schema.json",
-  "language": "en",
-  "words": ["commitlint", "nestjs", "markdownlint", "typedoc", "Bonta", "zthun", "Zthunworks"],
-  "dictionaries": ["typescript", "node", "npm", "en_US"]
+    "version": "0.1",
+    "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/master/cspell.schema.json",
+    "language": "en",
+    "words": [
+        "Bonta",
+        "commitlint",
+        "markdownlint",
+        "microservices",
+        "nestjs",
+        "typedoc",
+        "zthun",
+        "Zthunworks"
+    ],
+    "dictionaries": [
+        "typescript",
+        "node",
+        "npm",
+        "en_US"
+    ]
 }
