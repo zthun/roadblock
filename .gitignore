@@ -1,3 +1,7 @@
+# Output
+coverage
+docs
+
 # Logs
 logs
 *.log
