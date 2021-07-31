@@ -1,2 +1,3 @@
-# roadblock
-A small token based auth micro service for @zthun scoped projects.
+# Description
+
+Roadblock is a small micro service that handles basic token based auth for @zthun scoped projects.
