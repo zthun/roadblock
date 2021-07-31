@@ -8,7 +8,6 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "jsx": "react",
     "target": "es5",
     "module": "commonjs"
   }
