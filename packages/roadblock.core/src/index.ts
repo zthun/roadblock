@@ -1,3 +1,4 @@
 /* istanbul ignore file */
 
-export const DEFAULT = 0;
+export { ZRoadblockModule } from './module';
+export { ZRoadblockTokensServiceProxy } from './tokens/tokens.proxy';
