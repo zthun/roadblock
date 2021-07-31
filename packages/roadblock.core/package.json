@@ -1,0 +1,29 @@
+{
+  "name": "@zthun/roadblock.core",
+  "version": "1.0.0",
+  "description": "The core package library that handles communication and models from roadblock.",
+  "author": "Anthony Bonta",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zthun/roadblock",
+    "directory": "packages/roadblock.core"
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build": "yarn build:cjs && yarn build:esm && typedoc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/**",
+    "docs/**",
+    "images/**"
+  ],
+  "sideEffects": false
+}
