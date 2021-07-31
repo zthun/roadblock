@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  # Load Balancer (Entry Point)
+  local.roadblock.zthunworks.com:
+    build: ./packages/rnt.proxy
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    depends_on:
+      - roadblock-server
+  # Node Ports
+  roadblock-server:
+    image: node:16.2.0
+    ports:
+      - 9229:9229
+    volumes:
+      - .:/usr/dev
+    depends_on:
+      - roadblock-service
+    working_dir: /usr/dev
+    command: yarn workspace @zthun/roadblock.server debug
+  roadblock-service:
+    image: node:16.2.0
+    volumes:
+      - .:/usr/dev
+    environment:
+      - DATABASE_URL=mongodb://roadblock-database:27017
+    depends_on:
+      - roadblock-database
+  roadblock-database:
+    image: mongo:4.2.0
+  # Utilities
+  roadblock.database.zthunworks.com:
+    image: mongo-express:0.49
+    ports:
+      - 8081:8081
+    depends_on:
+      - roadblock-databases-users
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=zthunworks-databases-users
