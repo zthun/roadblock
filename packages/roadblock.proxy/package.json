@@ -1,0 +1,17 @@
+{
+  "name": "@zthun/rnt.proxy",
+  "version": "1.0.0-0",
+  "private": true,
+  "description": "A reverse proxy for the rnt website that is meant to run in docker-compose for development.",
+  "author": "Anthony Bonta",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zthun/react-node-template",
+    "directory": "packages/rnt.proxy"
+  },
+  "scripts": {
+    "docker:publish": "docker push zthun/rnt.proxy:latest && docker push zthun/rnt.proxy:$(node -p \"require('./package.json').version\")",
+    "docker:build": "docker build . -t zthun/rnt.proxy:latest -t zthun/rnt.proxy:$(node -p \"require('./package.json').version\")"
+  }
+}
