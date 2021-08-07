@@ -1,27 +1,28 @@
 version: '3.7'
 services:
   # Load Balancer (Entry Point)
-  local.roadblock.zthunworks.com:
-    build: ./packages/roadblock.proxy
+  roadblock.local.zthunworks.com:
+    image: zthun/works.proxy:1.0.0-28
     ports:
       - 80:80
       - 443:443
       - 8080:8080
     depends_on:
-      - roadblock-server
+      - roadblock-services-api
+      - roadblock-services-web
+    volumes:
+      - packages/roadblock.proxy/conf.d:/etc/nginx/conf.d
   # Node Ports
-  roadblock-server:
+  roadblock-services-web:
     image: node:16.2.0
-    ports:
-      - 9229:9229
     volumes:
       - .:/usr/dev
     working_dir: /usr/dev
-    command: yarn workspace @zthun/roadblock.server debug
-  roadblock-service:
+    command: yarn workspace @zthun/roadblock.web debug
+  roadblock-services-api:
     image: node:16.2.0
     ports:
-      - 9230:9229
+      - 9229:9229
     volumes:
       - .:/usr/dev
     environment:
@@ -29,7 +30,8 @@ services:
     depends_on:
       - roadblock-database
     working_dir: /usr/dev
-    command: yarn workspace @zthun/roadblock.service debug
+    command: yarn workspace @zthun/roadblock.api debug
+  # Databases
   roadblock-database:
     image: mongo:4.2.0
   # Utilities

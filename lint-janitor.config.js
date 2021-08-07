@@ -1,4 +1,4 @@
-const generated = ['**/CHANGELOG.md', 'packages/**/dist/**', 'packages/**/docs/**'];
+const generated = ['**/CHANGELOG.md', 'packages/**/dist/**', 'packages/**/docs/**', 'node_modules/**', 'packages/**/node_modules/**'];
 const partialGenerated = ['cspell.json', 'lerna.json'];
 
 const esFiles = ['*.js', '*.ts', 'packages/**/src/**/*.ts'];
