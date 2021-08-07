@@ -1,2 +1,2 @@
-FROM nginx:1.17.3-alpine
+FROM nginx:1.21.1-alpine
 COPY dist/. /usr/share/nginx/html/
