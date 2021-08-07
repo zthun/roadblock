@@ -15,7 +15,7 @@ class ZRoadblockServerModule {
   public static async run() {
     const app = await NestFactory.create(ZRoadblockServerModule);
     app.setGlobalPrefix('api');
-    await app.listen(8080).catch((err) => console.log(err));
+    await app.listen(3000).catch((err) => console.log(err));
   }
 }
 
