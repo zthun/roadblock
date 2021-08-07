@@ -11,16 +11,16 @@ services:
       - roadblock-services-api
       - roadblock-services-web
     volumes:
-      - packages/roadblock.proxy/conf.d:/etc/nginx/conf.d
+      - ./packages/roadblock.proxy/conf.d:/etc/nginx/conf.d
   # Node Ports
   roadblock-services-web:
-    image: node:16.2.0
+    image: node:16.5.0
     volumes:
       - .:/usr/dev
     working_dir: /usr/dev
     command: yarn workspace @zthun/roadblock.web debug
   roadblock-services-api:
-    image: node:16.2.0
+    image: node:16.5.0
     ports:
       - 9229:9229
     volumes:
