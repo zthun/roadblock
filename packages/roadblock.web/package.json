@@ -1,0 +1,30 @@
+{
+  "name": "@zthun/roadblock.web",
+  "version": "1.0.0-27",
+  "description": "The web client for the roadblock application.",
+  "browser": "./dist/roadblock.web.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zthun/roadblock",
+    "directory": "packages/roadblock.web"
+  },
+  "scripts": {
+    "docker:publish": "docker push zthun/roadblock.web && docker push zthun/roadblock.web:$(node -p \"require('./package.json').version\")",
+    "docker:build": "docker build . -t zthun/roadblock.web:latest -t zthun/roadblock.web:$(node -p \"require('./package.json').version\")",
+    "build": "webpack --env production",
+    "debug": "webpack serve --env development --host 0.0.0.0"
+  },
+  "author": "Anthony Bonta",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/**",
+    "images/**"
+  ],
+  "devDependencies": {
+    "@zthun/roadblock.core": "^1.0.0-27"
+  },
+  "sideEffects": false
+}
