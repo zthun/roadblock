@@ -14,13 +14,13 @@ services:
       - ./packages/roadblock.proxy/conf.d:/etc/nginx/conf.d
   # Node Ports
   roadblock-services-web:
-    image: node:16.5.0
+    image: node:16.6.0
     volumes:
       - .:/usr/dev
     working_dir: /usr/dev
-    command: yarn workspace @zthun/roadblock.web debug
+    command: npm --workspace @zthun/roadblock.web run debug
   roadblock-services-api:
-    image: node:16.5.0
+    image: node:16.6.0
     ports:
       - 9229:9229
     volumes:
@@ -30,7 +30,7 @@ services:
     depends_on:
       - roadblock-database
     working_dir: /usr/dev
-    command: yarn workspace @zthun/roadblock.api debug
+    command: npm --workspace @zthun/roadblock.api run debug
   # Databases
   roadblock-database:
     image: mongo:4.2.0

@@ -1,5 +1,4 @@
 {
-  "npmClient": "yarn",
   "packages": ["packages/*"],
   "stream": true,
   "version": "1.0.0-0",

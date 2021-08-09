@@ -12,7 +12,11 @@
   "private": true,
   "main": "./dist/main.js",
   "bin": {
-    "zthun-roadblock": "./dist/main.js"
+    "zthun-roadblock": "./bin/main.js"
+  },
+  "engines": {
+    "node": "^16.6.0",
+    "npm": "^7.19.0"
   },
   "scripts": {
     "debug": "nodemon",
@@ -20,24 +24,11 @@
     "start": "node ./dist/main.js"
   },
   "dependencies": {
-    "@nestjs/common": "^8.0.6",
-    "@nestjs/core": "^8.0.6",
-    "@nestjs/platform-express": "^8.0.6",
     "@zthun/roadblock.core": "^1.0.0-0",
-    "@zthun/works.class": "^1.0.0-24",
-    "@zthun/works.core": "^1.0.0-28",
-    "@zthun/works.dal": "^1.0.0-28",
-    "bcryptjs": "^2.4.3",
-    "class-transformer": "~0.4.0",
-    "class-validator": "~0.13.1",
-    "cookie-parser": "^1.4.5",
-    "helmet": "^4.1.0",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "nodemailer": "^6.4.10",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.3.0",
-    "uuid": "^8.0.0"
+    "@zthun/works.class": "^1.0.0",
+    "@zthun/works.nest": "^1.0.0",
+    "@zthun/works.core": "^1.0.0",
+    "@zthun/works.dal": "^1.0.0"
   },
   "files": [
     "dist/**",
