@@ -1,6 +1,6 @@
 import { CanActivate, ConflictException, ExecutionContext, Injectable } from '@nestjs/common';
 import { ZAssert } from '@zthun/works.core';
-import { ZUsersService } from '@zthun/works.nest';
+import { ZUsersClient } from '@zthun/works.microservices';
 
 @Injectable()
 /**
@@ -12,7 +12,7 @@ export class ZRuleBodyRequiresUniqueUser implements CanActivate {
    *
    * @param _users The user service that is used to search for the user email.
    */
-  public constructor(private readonly _users: ZUsersService) {}
+  public constructor(private readonly _users: ZUsersClient) {}
 
   /**
    * Gets whether or not the request can continue.

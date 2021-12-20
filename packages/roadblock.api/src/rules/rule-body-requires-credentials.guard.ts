@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { IZLogin, ZAssert, ZLoginBuilder } from '@zthun/works.core';
-import { ZUsersService } from '../../users/users.service';
+import { ZUsersClient } from '@zthun/works.microservices';
 
 @Injectable()
 /**
@@ -12,7 +12,7 @@ export class ZRuleBodyRequiresCredentials implements CanActivate {
    *
    * @param _users The user service to compare the user credentials with.
    */
-  public constructor(private readonly _users: ZUsersService) {}
+  public constructor(private readonly _users: ZUsersClient) {}
 
   /**
    * Returns whether or not the request can continue.

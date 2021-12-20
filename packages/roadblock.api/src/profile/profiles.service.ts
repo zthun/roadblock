@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IZEmail, IZLogin, IZProfile, IZUser, ZEmailBuilder, ZEmailEnvelopeBuilder, ZProfileBuilder } from '@zthun/works.core';
 import { ZNotificationsClient, ZUsersClient } from '@zthun/works.microservices';
-import { ZCommonConfigService, ZNotificationsConfigService } from '@zthun/works.nest';
+import { ZWorksConfigService } from '@zthun/works.nest';
 
 @Injectable()
 /**
@@ -13,10 +13,10 @@ export class ZProfilesService {
    *
    * @param _users The users service.
    * @param _notifications The notifications service.
-   * @param _commonConfig The common configuration service.
+   * @param _config The common configuration service.
    * @param _notificationsConfig The notifications configuration service.
    */
-  public constructor(private _users: ZUsersClient, private _notifications: ZNotificationsClient, private _commonConfig: ZCommonConfigService, private _notificationsConfig: ZNotificationsConfigService) {}
+  public constructor(private _users: ZUsersClient, private _notifications: ZNotificationsClient, private _config: ZWorksConfigService) {}
 
   /**
    * Creates a profile object from a login.
@@ -73,9 +73,9 @@ export class ZProfilesService {
    * @returns A promise that resolves the email sent.
    */
   public async sendActivationEmail(user: IZUser): Promise<IZEmail> {
-    const server = await this._notificationsConfig.smtp();
-    const domain = await this._commonConfig.domain();
-    const notifier = await this._notificationsConfig.notifier();
+    const server = await this._config.smtp();
+    const domain = await this._config.domain();
+    const notifier = await this._config.notifier();
     const envelope = new ZEmailEnvelopeBuilder().to(user.email).from(notifier.value).build();
     const subject = `Welcome to ${domain.value}`;
     const msg = `<h1>Welcome to ${domain.value}</h1>
@@ -155,9 +155,9 @@ export class ZProfilesService {
    * @param exp The expiration date.
    */
   public async sendRecoveryEmail(address: string, generated: string, exp: number): Promise<IZEmail> {
-    const server = await this._notificationsConfig.smtp();
-    const domain = await this._commonConfig.domain();
-    const notifier = await this._notificationsConfig.notifier();
+    const server = await this._config.smtp();
+    const domain = await this._config.domain();
+    const notifier = await this._config.notifier();
     const envelope = new ZEmailEnvelopeBuilder().to(address).from(notifier.value).build();
     const date = new Date(exp).toLocaleString();
     const time = new Date().toLocaleString();

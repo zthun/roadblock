@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { IZProfileActivation, ZAssert } from '@zthun/works.core';
+import { ZSecurityService } from '@zthun/works.nest';
 import { Request } from 'express';
-import { ZTokensService } from '../tokens/tokens.service';
 
 @Injectable()
 /**
@@ -12,9 +12,9 @@ export class ZRuleBodyRequiresActivationKey implements CanActivate {
   /**
    * Initializes a new instance of this object.
    *
-   * @param _tokens The service to extract the auth token.
+   * @param _security The service to extract the auth token.
    */
-  public constructor(private readonly _tokens: ZTokensService) {}
+  public constructor(private readonly _security: ZSecurityService) {}
 
   /**
    * Gets whether the http request can continue.
@@ -27,7 +27,7 @@ export class ZRuleBodyRequiresActivationKey implements CanActivate {
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const activation = request.body as IZProfileActivation;
-    const user = await this._tokens.extract(request);
+    const user = await this._security.extract(request);
     const tick = new Date().getTime();
 
     ZAssert.claim(user.activator.exp > tick, 'The activation key has expired.  Please send yourself another activation key.')

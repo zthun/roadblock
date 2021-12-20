@@ -5,11 +5,11 @@ import { IZProfileActivation, IZUser, ZProfileActivationBuilder, ZUserBuilder } 
 import { createMocked } from '@zthun/works.jest';
 import { Request } from 'express';
 import { v4 } from 'uuid';
-import { ZTokensService } from '../tokens/tokens.service';
+import { ZSecurityService } from '../../security/security.service';
 import { ZRuleBodyRequiresActivationKey } from './rule-body-requires-activation-key.guard';
 
 describe('ZRuleBodyRequiresActivationKey', () => {
-  let tokens: jest.Mocked<ZTokensService>;
+  let security: jest.Mocked<ZSecurityService>;
   let user: IZUser;
   let activation: IZProfileActivation;
   let req: jest.Mocked<Request>;
@@ -17,7 +17,7 @@ describe('ZRuleBodyRequiresActivationKey', () => {
   let context: jest.Mocked<ExecutionContext>;
 
   function createTestTarget() {
-    return new ZRuleBodyRequiresActivationKey(tokens);
+    return new ZRuleBodyRequiresActivationKey(security);
   }
 
   beforeEach(() => {
@@ -33,8 +33,8 @@ describe('ZRuleBodyRequiresActivationKey', () => {
     context = createMocked(['switchToHttp']);
     context.switchToHttp.mockReturnValue(host);
 
-    tokens = createMocked(['extract']);
-    tokens.extract.mockResolvedValue(Promise.resolve(user));
+    security = createMocked(['extract']);
+    security.extract.mockResolvedValue(Promise.resolve(user));
   });
 
   it('return true if all rules pass.', async () => {
@@ -50,7 +50,7 @@ describe('ZRuleBodyRequiresActivationKey', () => {
     // Arrange
     const target = createTestTarget();
     user = new ZUserBuilder().copy(user).inactive(v4()).build();
-    tokens.extract.mockResolvedValue(Promise.resolve(user));
+    security.extract.mockResolvedValue(Promise.resolve(user));
     // Act
     const actual = target.canActivate(context);
     // Assert
@@ -61,7 +61,7 @@ describe('ZRuleBodyRequiresActivationKey', () => {
     // Arrange
     const target = createTestTarget();
     user = new ZUserBuilder().copy(user).inactive(user.activator.key, 0).build();
-    tokens.extract.mockResolvedValue(Promise.resolve(user));
+    security.extract.mockResolvedValue(Promise.resolve(user));
     // Act
     const actual = target.canActivate(context);
     // Assert

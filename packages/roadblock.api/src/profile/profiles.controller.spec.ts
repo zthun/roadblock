@@ -4,7 +4,7 @@ import { createMocked } from '@zthun/works.jest';
 import { plainToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { v4 } from 'uuid';
-import { ZTokensService } from '../tokens/tokens.service';
+import { ZSecurityService } from '../../security/security.service';
 import { ZProfileActivationCreateDto } from './profile-activation-create.dto';
 import { ZProfileActivationUpdateDto } from './profile-activation-update.dto';
 import { ZProfileCreateDto } from './profile-create.dto';
@@ -14,7 +14,7 @@ import { ZProfilesService } from './profiles.service';
 
 describe('ZProfilesController', () => {
   let gambit: IZProfile;
-  let jwt: jest.Mocked<ZTokensService>;
+  let jwt: jest.Mocked<ZSecurityService>;
   let profile: jest.Mocked<ZProfilesService>;
   let req: jest.Mocked<Request>;
   let res: jest.Mocked<Response>;
@@ -37,7 +37,7 @@ describe('ZProfilesController', () => {
     profile.deactivate.mockResolvedValue(gambit);
     profile.reactivate.mockResolvedValue(gambit);
 
-    jwt = createMocked<ZTokensService>(['extract']);
+    jwt = createMocked<ZSecurityService>(['extract']);
     jwt.extract.mockReturnValue(Promise.resolve(new ZUserBuilder().email('gambit@marvel.com').super().active().build()));
   });
 

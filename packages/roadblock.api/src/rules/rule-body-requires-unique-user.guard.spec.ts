@@ -1,21 +1,21 @@
 /* eslint-disable require-jsdoc */
-import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { IZLogin, ZLoginBuilder } from '@zthun/works.core';
+import { ConflictException } from '@nestjs/common';
+import { ExecutionContext, HttpArgumentsHost } from '@nestjs/common/interfaces';
+import { IZLogin, ZLoginBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
+import { ZUsersClient } from '@zthun/works.microservices';
 import { Request } from 'express';
-import { ZUsersService } from '../../users/users.service';
-import { ZRuleBodyRequiresCredentials } from './rule-body-requires-credentials.guard';
+import { ZRuleBodyRequiresUniqueUser } from './rule-body-requires-unique-user.guard';
 
-describe('ZRuleBodyRequiresCredentials', () => {
-  let users: jest.Mocked<ZUsersService>;
+describe('ZRuleBodyRequiresUniqueUser', () => {
+  let users: jest.Mocked<ZUsersClient>;
   let login: IZLogin;
   let req: jest.Mocked<Request>;
   let host: jest.Mocked<HttpArgumentsHost>;
   let context: jest.Mocked<ExecutionContext>;
 
   function createTestTarget() {
-    return new ZRuleBodyRequiresCredentials(users);
+    return new ZRuleBodyRequiresUniqueUser(users);
   }
 
   beforeEach(() => {
@@ -30,8 +30,8 @@ describe('ZRuleBodyRequiresCredentials', () => {
     context = createMocked(['switchToHttp']);
     context.switchToHttp.mockReturnValue(host);
 
-    users = createMocked(['compare']);
-    users.compare.mockResolvedValue(true);
+    users = createMocked(['findByEmail']);
+    users.findByEmail.mockResolvedValue(null);
   });
 
   it('return true if all rules pass.', async () => {
@@ -43,13 +43,13 @@ describe('ZRuleBodyRequiresCredentials', () => {
     expect(actual).toBeTruthy();
   });
 
-  it('throws an Unauthorized exception if the credentials are incorrect.', async () => {
+  it('throws a ConflictException if the user is not unique.', async () => {
     // Arrange
     const target = createTestTarget();
-    users.compare.mockResolvedValue(false);
+    users.findByEmail.mockResolvedValue(new ZUserBuilder().build());
     // Act
     const actual = target.canActivate(context);
     // Assert
-    await expect(actual).rejects.toBeInstanceOf(UnauthorizedException);
+    await expect(actual).rejects.toBeInstanceOf(ConflictException);
   });
 });

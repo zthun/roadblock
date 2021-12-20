@@ -3,13 +3,13 @@ import { ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { IZProfileActivation, IZUser, ZProfileActivationBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
+import { ZSecurityService } from '@zthun/works.nest';
 import { Request } from 'express';
 import { v4 } from 'uuid';
-import { ZTokensService } from '../tokens/tokens.service';
 import { ZRuleBodyRequiresActivationEmail } from './rule-body-requires-activation-email.guard';
 
 describe('ZRuleBodyRequiresActivationEmail', () => {
-  let tokens: jest.Mocked<ZTokensService>;
+  let security: jest.Mocked<ZSecurityService>;
   let user: IZUser;
   let activation: IZProfileActivation;
   let req: jest.Mocked<Request>;
@@ -17,7 +17,7 @@ describe('ZRuleBodyRequiresActivationEmail', () => {
   let context: jest.Mocked<ExecutionContext>;
 
   function createTestTarget() {
-    return new ZRuleBodyRequiresActivationEmail(tokens);
+    return new ZRuleBodyRequiresActivationEmail(security);
   }
 
   beforeEach(() => {
@@ -33,8 +33,8 @@ describe('ZRuleBodyRequiresActivationEmail', () => {
     context = createMocked(['switchToHttp']);
     context.switchToHttp.mockReturnValue(host);
 
-    tokens = createMocked(['extract']);
-    tokens.extract.mockResolvedValue(Promise.resolve(user));
+    security = createMocked(['extract']);
+    security.extract.mockResolvedValue(Promise.resolve(user));
   });
 
   it('return true if all rules pass.', async () => {
@@ -50,7 +50,7 @@ describe('ZRuleBodyRequiresActivationEmail', () => {
     // Arrange
     const target = createTestTarget();
     user = new ZUserBuilder().copy(user).email('other-person@gmail.com').build();
-    tokens.extract.mockResolvedValue(Promise.resolve(user));
+    security.extract.mockResolvedValue(Promise.resolve(user));
     // Act
     const actual = target.canActivate(context);
     // Assert

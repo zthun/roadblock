@@ -1,10 +1,9 @@
 /* eslint-disable require-jsdoc */
 import { IZConfigEntry, IZEmail, IZLogin, IZProfile, IZServer, IZUser, ZConfigEntryBuilder, ZLoginBuilder, ZProfileBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
-import { ZUsersClient, ZNotificationsClient } from '@zthun/works.microservices';
+import { ZNotificationsClient, ZUsersClient } from '@zthun/works.microservices';
 import { v4 } from 'uuid';
-import { ZNotificationsConfigService } from '../../config/notifications-config.service';
-import { ZCommonConfigService } from '../../config/common-config.service';
+import { ZWorksConfigService } from '../../config/works-config.service';
 import { ZProfilesService } from './profiles.service';
 
 describe('ZProfilesService', () => {
@@ -14,30 +13,26 @@ describe('ZProfilesService', () => {
 
   let users: jest.Mocked<ZUsersClient>;
   let email: jest.Mocked<ZNotificationsClient>;
-  let commonConfig: jest.Mocked<ZCommonConfigService>;
-  let notificationsConfig: jest.Mocked<ZNotificationsConfigService>;
+  let config: jest.Mocked<ZWorksConfigService>;
 
   function createTestTarget() {
-    return new ZProfilesService(users, email, commonConfig, notificationsConfig);
+    return new ZProfilesService(users, email, config);
   }
 
   beforeEach(() => {
-    smtp = new ZConfigEntryBuilder().scope(ZNotificationsConfigService.SCOPE).key(ZNotificationsConfigService.KEY_SMTP).value(ZNotificationsConfigService.DEFAULT_SMTP).build();
-    notifier = new ZConfigEntryBuilder().scope(ZNotificationsConfigService.SCOPE).key(ZNotificationsConfigService.KEY_NOTIFIER).value(ZNotificationsConfigService.DEFAULT_NOTIFIER).build();
-
-    domain = new ZConfigEntryBuilder().scope(ZCommonConfigService.SCOPE).key(ZCommonConfigService.KEY_DOMAIN).value(ZCommonConfigService.DEFAULT_DOMAIN).build();
+    smtp = new ZConfigEntryBuilder().scope(ZWorksConfigService.SCOPE_NOTIFICATIONS).key(ZWorksConfigService.KEY_NOTIFICATIONS_SMTP).value(ZWorksConfigService.VALUE_NOTIFICATIONS_SMTP).build();
+    notifier = new ZConfigEntryBuilder().scope(ZWorksConfigService.SCOPE_NOTIFICATIONS).key(ZWorksConfigService.KEY_NOTIFICATIONS_NOTIFIER).value(ZWorksConfigService.VALUE_NOTIFICATIONS_NOTIFIER).build();
+    domain = new ZConfigEntryBuilder().scope(ZWorksConfigService.SCOPE_COMMON).key(ZWorksConfigService.KEY_COMMON_DOMAIN).value(ZWorksConfigService.VALUE_COMMON_DOMAIN).build();
 
     users = createMocked<ZUsersClient>(['create', 'update', 'remove', 'activate', 'deactivate', 'recover', 'findByEmail']);
 
     email = createMocked<ZNotificationsClient>(['sendEmail']);
     email.sendEmail.mockReturnValue(Promise.resolve(null));
 
-    commonConfig = createMocked<ZCommonConfigService>(['domain']);
-    commonConfig.domain.mockReturnValue(Promise.resolve(domain));
-
-    notificationsConfig = createMocked<ZNotificationsConfigService>(['smtp', 'notifier']);
-    notificationsConfig.notifier.mockReturnValue(Promise.resolve(notifier));
-    notificationsConfig.smtp.mockReturnValue(Promise.resolve(smtp));
+    config = createMocked<ZWorksConfigService>(['domain', 'smtp', 'notifier']);
+    config.domain.mockResolvedValue(domain);
+    config.smtp.mockResolvedValue(smtp);
+    config.notifier.mockResolvedValue(notifier);
   });
 
   describe('Create', () => {
