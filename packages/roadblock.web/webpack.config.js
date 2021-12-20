@@ -43,11 +43,6 @@ function config(env) {
           options: {
             configFile: env.production ? 'tsconfig.prod.json' : 'tsconfig.dev.json'
           }
-        },
-        {
-          test: /\.less$/,
-          use: ['style-loader', 'css-loader', 'less-loader'],
-          sideEffects: true
         }
       ]
     },
@@ -72,9 +67,9 @@ function config(env) {
       usedExports: true
     },
     devServer: {
-      contentBase: dir,
+      host: '0.0.0.0',
       compress: false,
-      disableHostCheck: true,
+      allowedHosts: 'all',
       port: 8080
     },
     performance: {
