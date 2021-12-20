@@ -10,6 +10,8 @@ services:
     depends_on:
       - roadblock-services-api
       - roadblock-services-web
+      - database.zthunworks.com
+      - smtp.zthunworks.com
     volumes:
       - ./packages/roadblock.proxy/conf.d:/etc/nginx/conf.d
   # Node Ports
@@ -33,35 +35,30 @@ services:
     working_dir: /usr/dev
     command: npm --workspace @zthun/roadblock.api run debug
   zthunworks-services-users:
-    image: zthun/works.users:2.2.0
+    image: zthun/works.users:2.3.0
     environment:
       - DATABASE_URL=mongodb://roadblock-database:27017
     depends_on:
       - roadblock-database
   zthunworks-services-vault:
-    image: zthun/works.vault:2.2.0
+    image: zthun/works.vault:2.3.0
     environment:
       - DATABASE_URL=mongodb://roadblock-database:27017
     depends_on:
       - roadblock-database
   zthunworks-services-notifications:
-    image: zthun/works.notifications:2.2.0
+    image: zthun/works.notifications:2.3.0
   zthunworks-services-cookies:
-    image: zthun/works.cookies:2.2.0
+    image: zthun/works.cookies:2.3.0
   # Databases
   roadblock-database:
     image: mongo:4.2.0
   # Utilities
-  roadblock.database.com:
+  database.zthunworks.com:
     image: mongo-express:0.49
-    ports:
-      - 8081:8081
     depends_on:
       - roadblock-database
     environment:
       - ME_CONFIG_MONGODB_SERVER=roadblock-database
   smtp.zthunworks.com:
     image: rnwood/smtp4dev:v3.1
-    ports:
-      - 8083:80
-      - 25:25
