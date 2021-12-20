@@ -1,12 +1,11 @@
-import { Grid, Typography } from '@material-ui/core';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+import { Grid, Typography } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import { IZProfile, IZProfileActivation, ZProfileActivationBuilder } from '@zthun/works.core';
-import { tryGetProfile, useAlertStack, useLoginState, ZAlertBuilder, ZCircularProgress, ZPaperCard, ZProfileActivationForm, ZProfileForm } from '@zthun/works.react';
-import { ZUrlBuilder } from '@zthun/works.url';
-import Axios from 'axios';
+import { ZAlertBuilder } from '@zthun/works.message';
+import { useAlertService, useErrorHandler, useProfileAndWatch, useProfileService, ZCircularProgress, ZPaperCard, ZProfileActivationForm, ZProfileForm } from '@zthun/works.react';
 import { get } from 'lodash';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
@@ -16,74 +15,34 @@ import { Redirect } from 'react-router-dom';
  *
  * @returns The jsx that renders the profile page.
  */
-export function ZRoadblockProfilePage() {
-  const loginState = useLoginState();
-  const alerts = useAlertStack();
+export function ZProfilePage() {
+  const profile = useProfileAndWatch();
+  const alerts = useAlertService();
+  const errors = useErrorHandler();
+  const profileSvc = useProfileService();
   const [loggingOut, setLoggingOut] = useState(false);
   const [activating, setActivating] = useState(false);
   const [deactivating, setDeactivating] = useState(false);
   const [reactivating, setReactivating] = useState(false);
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [activation, setActivation] = useState(new ZProfileActivationBuilder().email(get(loginState.data, 'email', null)).build());
+  const [activation, setActivation] = useState(new ZProfileActivationBuilder().email(get(profile.data, 'email', null)).build());
   const waiting = deleting || deactivating || updatingProfile || activating || reactivating || loggingOut;
-
-  /**
-   * Helper function that invokes the profile service to refresh it.
-   *
-   * @param url The user to invoke.
-   * @param successMsg The message to alert upon success.
-   * @param changeFn The change method to invoke on the url.
-   *
-   * @returns A promise that resolves if the changeFn completed successfully.  Notifies the user with an error alert
-   *          if a failure occurs, but still resolves the promise.
-   */
-  async function handleProfileRest<T>(url: string, successMsg: string, changeFn: (url: string) => Promise<T>) {
-    try {
-      await changeFn(url);
-      alerts.add(new ZAlertBuilder().success().message(successMsg).build());
-      loginState.set();
-      const profile = await tryGetProfile();
-      loginState.set(profile);
-    } catch (err) {
-      alerts.add(new ZAlertBuilder().error().message(get(err, 'response.data.message', err)).build());
-    }
-  }
 
   /**
    * Occurs when the user clicks the logout button.
    */
   async function handleLogout() {
-    setLoggingOut(true);
-    const url = new ZUrlBuilder().api().append('tokens').build();
-    await handleProfileRest(url, 'Logout successful', (u) => Axios.delete(u));
-    setLoggingOut(false);
-  }
-
-  /**
-   * Helper function for updating the profile with the put and delete verbs.
-   *
-   * @param successMsg The success message.
-   * @param changeFn The method that invokes the http request.
-   *
-   * @returns A promise that completes when the request is finished.
-   */
-  async function handleProfileChange<T>(successMsg: string, changeFn: (url: string) => Promise<T>) {
-    const url = new ZUrlBuilder().api().append('profiles').build();
-    return handleProfileRest(url, successMsg, changeFn);
-  }
-
-  /**
-   * Helper function for invoking changes to the profile activations.
-   *
-   * @param successMsg The message to display upon success.
-   * @param changeFn The method that invokes the http request.
-   *
-   * @returns A promise that completes when the request is finished.
-   */
-  async function handleActivationChange<T>(successMsg: string, changeFn: (url: string) => Promise<T>) {
-    const url = new ZUrlBuilder().api().append('profiles').append('activations').build();
-    return handleProfileRest(url, successMsg, changeFn);
+    try {
+      setLoggingOut(true);
+      await profileSvc.logout();
+      alerts.create(new ZAlertBuilder().success().message('Logout successful.').build());
+      setLoggingOut(false);
+      profile.set(null);
+    } catch (err) {
+      errors.handle(err);
+      setLoggingOut(false);
+    }
   }
 
   /**
@@ -94,11 +53,17 @@ export function ZRoadblockProfilePage() {
    * @returns A promise that resolves once the request is complete.
    */
   async function handleActivation(value: IZProfileActivation) {
-    setActivation(value);
-    setActivating(true);
-    value = new ZProfileActivationBuilder().copy(value).email(loginState.data.email).build();
-    await handleActivationChange('Account activated.', (url) => Axios.put(url, value));
-    setActivating(false);
+    try {
+      setActivation(value);
+      setActivating(true);
+      const update = await profileSvc.activate(value);
+      alerts.create(new ZAlertBuilder().success().message('Account activated.').build());
+      setActivating(false);
+      profile.set(update);
+    } catch (err) {
+      errors.handle(err);
+      setActivating(false);
+    }
   }
 
   /**
@@ -109,21 +74,36 @@ export function ZRoadblockProfilePage() {
    * @returns A promise that resolves once the request is complete.
    */
   async function handleReactivation() {
-    setReactivating(true);
-    const body = new ZProfileActivationBuilder().email(loginState.data.email).build();
-    setActivation(body);
-    await handleActivationChange('Activation code sent. Please check your email.', (url) => Axios.post(url, body));
-    setReactivating(false);
+    try {
+      setReactivating(true);
+      const body = new ZProfileActivationBuilder().email(profile.data.email).build();
+      setActivation(body);
+      const update = await profileSvc.reactivate(body);
+      alerts.create(new ZAlertBuilder().success().message('Activation code sent. Please check your email.').build());
+      setReactivating(false);
+      profile.set(update);
+    } catch (err) {
+      errors.handle(err);
+      setReactivating(false);
+    }
   }
 
   /**
    * Attempts to deactivate a profile.
    */
   async function handleDeactivation() {
-    setDeactivating(true);
-    const body = new ZProfileActivationBuilder().email(loginState.data.email).build();
-    setActivation(body);
-    await handleActivationChange('Account deactivated. Send yourself another activation code to reactivate.', (url) => Axios.delete(url));
+    try {
+      setDeactivating(true);
+      const body = new ZProfileActivationBuilder().email(profile.data.email).build();
+      setActivation(body);
+      const update = await profileSvc.deactivate();
+      alerts.create(new ZAlertBuilder().success().message('Account deactivated. Send yourself another activation code to reactivate.').build());
+      profile.set(update);
+    } catch (err) {
+      errors.handle(err);
+      setDeactivating(false);
+    }
+
     setDeactivating(false);
   }
 
@@ -131,10 +111,17 @@ export function ZRoadblockProfilePage() {
    * Attempts to delete a profile.
    */
   async function handleDelete() {
-    setDeleting(true);
-    setActivation(null);
-    await handleProfileChange('Account deleted.  You will need to create a new account.', (url) => Axios.delete(url));
-    setDeleting(false);
+    try {
+      setDeleting(true);
+      setActivation(null);
+      await profileSvc.delete();
+      alerts.create(new ZAlertBuilder().success().message('Account deleted').build());
+      setDeleting(false);
+      profile.set(null);
+    } catch (err) {
+      errors.handle(err);
+      setDeleting(false);
+    }
   }
 
   /**
@@ -143,10 +130,17 @@ export function ZRoadblockProfilePage() {
    * @param changes The changes to make to the current profile.
    */
   async function handleUpdateProfile(changes: IZProfile) {
-    setUpdatingProfile(true);
-    setActivation(new ZProfileActivationBuilder().email(loginState.data.email).build());
-    await handleProfileChange('Account updated.', (url) => Axios.put(url, changes));
-    setUpdatingProfile(false);
+    try {
+      setUpdatingProfile(true);
+      setActivation(new ZProfileActivationBuilder().email(profile.data.email).build());
+      const updated = await profileSvc.update(changes);
+      alerts.create(new ZAlertBuilder().success().message('Account updated').build());
+      setUpdatingProfile(false);
+      profile.set(updated);
+    } catch (err) {
+      errors.handle(err);
+      setUpdatingProfile(false);
+    }
   }
 
   /**
@@ -168,7 +162,7 @@ export function ZRoadblockProfilePage() {
    * @returns The jsx that renders the core profile form.
    */
   function createProfileForm() {
-    return <ZProfileForm disabled={waiting} loading={updatingProfile} profile={loginState.data} onProfileChange={handleUpdateProfile} />;
+    return <ZProfileForm disabled={waiting} loading={updatingProfile} profile={profile.data} onProfileChange={handleUpdateProfile} />;
   }
 
   /**
@@ -317,7 +311,7 @@ export function ZRoadblockProfilePage() {
    * @returns The jsx that represents the current profile state.
    */
   function createProfileFromSession() {
-    return loginState.data.active ? createProfileActivatedSession() : createProfileDeactivatedSession();
+    return profile.data.active ? createProfileActivatedSession() : createProfileDeactivatedSession();
   }
 
   /**
@@ -335,11 +329,11 @@ export function ZRoadblockProfilePage() {
    * @returns The jsx associated with the login state.
    */
   function createContentFromProfile() {
-    if (loginState.data) {
+    if (profile.data) {
       return createProfileFromSession();
     }
 
-    if (loginState.data === null) {
+    if (profile.data === null) {
       return createProfileRedirect();
     }
 
