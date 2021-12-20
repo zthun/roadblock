@@ -3482,14 +3482,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsdom@npm:^16.2.13":
-  version: 16.2.13
-  resolution: "@types/jsdom@npm:16.2.13"
+"@types/jsdom@npm:^16.2.14":
+  version: 16.2.14
+  resolution: "@types/jsdom@npm:16.2.14"
   dependencies:
     "@types/node": "*"
     "@types/parse5": "*"
     "@types/tough-cookie": "*"
-  checksum: 2575d020e345f556a28208dad4d495e317e7364f1de222322c100841f49a815c73c0aa32d32d7a72a05fd7cd33551f4c0effc108fbaaf194ec42ed0f04d877b9
+  checksum: 12bb926fa74ea07c0ba0bfd5bf185ac0fd771b28666a5e8784b9af4bb96bb0c51fc5f494eff7da1d3cd804e4757f640a23c344c1cd5d188f95ab0ab51770d88b
   languageName: node
   linkType: hard
 
@@ -3581,7 +3581,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.0":
+"@types/node@npm:*, @types/node@npm:^17.0.1":
   version: 17.0.1
   resolution: "@types/node@npm:17.0.1"
   checksum: 16a5aa2778e1e49443d272f0da20af66c143337ddb14d9f36d5e7eb1e11ebbf195769d3d495ec5456ec94fe3d0e703c5df1ac279a05c7dc2a1220474467c1103
@@ -4134,9 +4134,9 @@ __metadata:
     "@nestjs/core": ^8.2.4
     "@nestjs/microservices": ^8.2.4
     "@nestjs/platform-express": ^8.2.4
-    "@zthun/works.core": ^2.0.0
-    "@zthun/works.microservices": ^2.1.0
-    "@zthun/works.nest": ^2.1.0
+    "@zthun/works.core": ^2.2.0
+    "@zthun/works.microservices": ^2.2.0
+    "@zthun/works.nest": ^2.2.0
     jsonwebtoken: ^8.5.1
     lodash: ^4.17.21
     reflect-metadata: ^0.1.13
@@ -4157,9 +4157,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zthun/roadblock.web@workspace:packages/roadblock.web"
   dependencies:
-    "@zthun/works.core": ^2.0.0
+    "@zthun/works.core": ^2.2.0
     "@zthun/works.draw": ^2.1.0
-    "@zthun/works.react": ^2.1.0
+    "@zthun/works.react": ^2.2.0
     "@zthun/works.url": ^2.0.0
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -4179,11 +4179,11 @@ __metadata:
     "@types/cookie-parser": ^1.4.2
     "@types/express": ^4.17.13
     "@types/jest": ^27.0.3
-    "@types/jsdom": ^16.2.13
+    "@types/jsdom": ^16.2.14
     "@types/jsonwebtoken": ^8.5.6
     "@types/lodash": ^4.14.178
     "@types/md5": ^2.3.1
-    "@types/node": ^17.0.0
+    "@types/node": ^17.0.1
     "@types/nodemailer": ^6.4.4
     "@types/url-parse": ^1.4.5
     "@types/uuid": ^8.3.3
@@ -4235,10 +4235,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/works.core@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@zthun/works.core@npm:2.0.0"
-  checksum: 377e40788587507727ad0aca053c8f0b89fed3b2b7e9ed21de0d7a7dea0fd1603dd18ee0ccb7bd5d8f44929e0e58c78dd8b3747ff29cd61eaf121c2a440ac973
+"@zthun/works.core@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@zthun/works.core@npm:2.2.0"
+  checksum: be8b64e165d3b0885691b073d315116460c9f33ff83b913f9644e23c5e3e7afdbef8f7a1c3fc91b911f640a9a6501dc76d6fbe6c5b199e4cab4e656196a9e0c3
   languageName: node
   linkType: hard
 
@@ -4296,32 +4296,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/works.microservices@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@zthun/works.microservices@npm:2.1.0"
+"@zthun/works.microservices@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@zthun/works.microservices@npm:2.2.0"
   dependencies:
-    "@zthun/works.core": ^2.0.0
+    "@zthun/works.core": ^2.2.0
     rxjs: ^7.4.0
   peerDependencies:
     "@nestjs/common": ^8.0.6
     "@nestjs/microservices": ^8.0.6
-  checksum: 551dedac98b57829a27aea3f3898ff309fd0f0491ee84e52cdb227b55a7645aab5fa670b3fb5a80f9311fb68db44f7e6636630e6eccb9165d1a310703b8d5bca
+  checksum: 055ea10dabfd2cf03def78547d94083b59389b4a32cdcccf7004a64e51b87fef46e967fd86b55935c92ab8b1ce8a4c3a346f6f20aee45b80419ad8f1106a53f1
   languageName: node
   linkType: hard
 
-"@zthun/works.nest@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@zthun/works.nest@npm:2.1.0"
+"@zthun/works.nest@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@zthun/works.nest@npm:2.2.0"
   dependencies:
     "@zthun/works.class": ^2.1.0
-    "@zthun/works.core": ^2.0.0
+    "@zthun/works.core": ^2.2.0
     "@zthun/works.http": ^2.1.0
-    "@zthun/works.microservices": ^2.1.0
+    "@zthun/works.microservices": ^2.2.0
     "@zthun/works.url": ^2.0.0
     class-transformer: ~0.5.1
     cookie-parser: ^1.4.6
     helmet: ^4.6.0
-    jsonwebtoken: ^8.5.1
     lodash: ^4.17.21
     rxjs: ^7.4.0
     uuid: ^8.3.2
@@ -4330,20 +4329,20 @@ __metadata:
     "@nestjs/core": ^8.0.6
     "@nestjs/microservices": ^8.0.6
     "@nestjs/platform-express": ^8.0.6
-  checksum: 52bbf440f6137a61503f4216b35d7467c4ba488a79323077f5ac4ef49dc31296d0324a69d7893b64ade8250af14803b4058ec79cbd67b4951b46ac5b462b8795
+  checksum: 949afb3a5ffcfebd43a7856785129c00574366afaef8aa0428e58777afef8f8c77cd47ec0dd0e2a8bad77a66a9a92b9b71e595f8c2ff4343917b6eeb1108fa66
   languageName: node
   linkType: hard
 
-"@zthun/works.react@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@zthun/works.react@npm:2.1.0"
+"@zthun/works.react@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@zthun/works.react@npm:2.2.0"
   dependencies:
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@mui/icons-material": ^5.2.4
     "@mui/material": ^5.2.4
     "@mui/system": ^5.2.4
-    "@zthun/works.core": ^2.0.0
+    "@zthun/works.core": ^2.2.0
     "@zthun/works.draw": ^2.1.0
     "@zthun/works.error": ^2.0.0
     "@zthun/works.http": ^2.1.0
@@ -4361,7 +4360,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.0
     react-dom: ^17.0.0
-  checksum: d4d737a8c013670cd68e5eda81e2051fc4151068cdc87c91332b5247d557af3dc4737b31baea0dfcf1546a5643811a23ae065b1d6d1212922391bc171936f7d0
+  checksum: ae16f788c9034608cafec5bc719010929588116234d889e6cbd90bb92b29056c2b9f984f3ad54f22e21ea98df1d2e0fee6c2792223e042c2e486c93ab1b5de6e
   languageName: node
   linkType: hard
 
