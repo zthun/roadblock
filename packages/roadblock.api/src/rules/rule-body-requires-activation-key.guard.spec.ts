@@ -3,9 +3,9 @@ import { ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { IZProfileActivation, IZUser, ZProfileActivationBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
+import { ZSecurityService } from '@zthun/works.nest';
 import { Request } from 'express';
 import { v4 } from 'uuid';
-import { ZSecurityService } from '../../security/security.service';
 import { ZRuleBodyRequiresActivationKey } from './rule-body-requires-activation-key.guard';
 
 describe('ZRuleBodyRequiresActivationKey', () => {
