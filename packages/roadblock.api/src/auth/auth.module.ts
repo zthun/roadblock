@@ -1,8 +1,7 @@
 /* istanbul ignore file */
 
 import { Module } from '@nestjs/common';
-import { ZNotificationsModule, ZVaultModule } from '@zthun/works.nest';
-import { ZUsersModule } from '../users/users.module';
+import { ZNotificationsModule, ZUsersModule, ZVaultModule } from '@zthun/works.microservices';
 import { ZAuthConfigService } from './config/auth-config.service';
 import { ZProfilesController } from './profile/profiles.controller';
 import { ZProfilesService } from './profile/profiles.service';

@@ -3,8 +3,8 @@ import { ConflictException } from '@nestjs/common';
 import { ExecutionContext, HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { IZLogin, ZLoginBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
+import { ZUsersService } from '@zthun/works.nest';
 import { Request } from 'express';
-import { ZUsersService } from '../../users/users.service';
 import { ZRuleBodyRequiresUniqueUser } from './rule-body-requires-unique-user.guard';
 
 describe('ZRuleBodyRequiresUniqueUser', () => {

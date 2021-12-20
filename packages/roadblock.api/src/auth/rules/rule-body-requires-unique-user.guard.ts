@@ -1,6 +1,6 @@
 import { CanActivate, ConflictException, ExecutionContext, Injectable } from '@nestjs/common';
 import { ZAssert } from '@zthun/works.core';
-import { ZUsersService } from '../../users/users.service';
+import { ZUsersService } from '@zthun/works.nest';
 
 @Injectable()
 /**

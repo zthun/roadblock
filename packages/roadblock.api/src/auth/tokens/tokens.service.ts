@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { IZLogin, IZUser } from '@zthun/works.core';
-import { ZCommonConfigService } from '@zthun/works.nest';
+import { ZCommonConfigService, ZUsersService } from '@zthun/works.nest';
 import { CookieOptions, Request, Response } from 'express';
 import { sign, SignOptions, verify } from 'jsonwebtoken';
 import { get } from 'lodash';
-import { ZUsersService } from '../../users/users.service';
 import { ZAuthConfigService } from '../config/auth-config.service';
 
 @Injectable()

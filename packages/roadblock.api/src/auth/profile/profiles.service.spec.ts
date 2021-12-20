@@ -1,9 +1,10 @@
 /* eslint-disable require-jsdoc */
 import { IZConfigEntry, IZEmail, IZLogin, IZProfile, IZServer, IZUser, ZConfigEntryBuilder, ZLoginBuilder, ZProfileBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
-import { ZCommonConfigService, ZEmailService, ZNotificationsConfigService } from '@zthun/works.nest';
+import { ZUsersClient, ZNotificationsClient } from '@zthun/works.microservices';
 import { v4 } from 'uuid';
-import { ZUsersService } from '../../users/users.service';
+import { ZNotificationsConfigService } from '../../config/notifications-config.service';
+import { ZCommonConfigService } from '../../config/common-config.service';
 import { ZProfilesService } from './profiles.service';
 
 describe('ZProfilesService', () => {
@@ -11,8 +12,8 @@ describe('ZProfilesService', () => {
   let notifier: IZConfigEntry<string>;
   let domain: IZConfigEntry<string>;
 
-  let users: jest.Mocked<ZUsersService>;
-  let email: jest.Mocked<ZEmailService>;
+  let users: jest.Mocked<ZUsersClient>;
+  let email: jest.Mocked<ZNotificationsClient>;
   let commonConfig: jest.Mocked<ZCommonConfigService>;
   let notificationsConfig: jest.Mocked<ZNotificationsConfigService>;
 
@@ -26,10 +27,10 @@ describe('ZProfilesService', () => {
 
     domain = new ZConfigEntryBuilder().scope(ZCommonConfigService.SCOPE).key(ZCommonConfigService.KEY_DOMAIN).value(ZCommonConfigService.DEFAULT_DOMAIN).build();
 
-    users = createMocked<ZUsersService>(['create', 'update', 'remove', 'activate', 'deactivate', 'recover', 'findByEmail']);
+    users = createMocked<ZUsersClient>(['create', 'update', 'remove', 'activate', 'deactivate', 'recover', 'findByEmail']);
 
-    email = createMocked<ZEmailService>(['send']);
-    email.send.mockReturnValue(Promise.resolve());
+    email = createMocked<ZNotificationsClient>(['sendEmail']);
+    email.sendEmail.mockReturnValue(Promise.resolve(null));
 
     commonConfig = createMocked<ZCommonConfigService>(['domain']);
     commonConfig.domain.mockReturnValue(Promise.resolve(domain));
@@ -62,7 +63,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.create(login);
       // Assert
-      expect(email.send).toHaveBeenCalledWith(expect.anything(), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.anything(), smtp.value);
     });
 
     it('does not send the activation email for the super user.', async () => {
@@ -73,7 +74,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.create(login);
       // Assert
-      expect(email.send).not.toHaveBeenCalled();
+      expect(email.sendEmail).not.toHaveBeenCalled();
     });
   });
 
@@ -104,7 +105,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.update(current, profile);
       // Assert
-      expect(email.send).toHaveBeenCalledWith(expect.anything(), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.anything(), smtp.value);
     });
   });
 
@@ -143,7 +144,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.sendActivationEmail(user);
       // Assert
-      expect(email.send).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), smtp.value);
     });
 
     it('activates the user with the given email.', async () => {
@@ -179,7 +180,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.reactivate(user.email);
       // Assert
-      expect(email.send).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), smtp.value);
     });
   });
 
@@ -202,7 +203,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.recoverPassword(user.email);
       // Assert
-      expect(email.send).not.toHaveBeenCalled();
+      expect(email.sendEmail).not.toHaveBeenCalled();
     });
 
     it('sends the email with the generated password.', async () => {
@@ -212,7 +213,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.recoverPassword(user.email);
       // Assert
-      expect(email.send).toHaveBeenCalledWith(expected, smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expected, smtp.value);
     });
 
     it('sends the email with the expiration date.', async () => {
@@ -223,7 +224,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.recoverPassword(user.email);
       // Assert
-      expect(email.send).toHaveBeenCalledWith(expected, smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expected, smtp.value);
     });
   });
 });

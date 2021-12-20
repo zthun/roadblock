@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ZRuleBodyRequiresCredentials } from '../rules/rule-body-requires-credentials.guard';
 import { ZRuleCookieRequiresAuthAny } from '../rules/rule-cookie-requires-auth-any.guard';
@@ -16,21 +16,6 @@ export class ZTokensController {
    * @param _tokens The jwt tokens client proxy.
    */
   public constructor(private readonly _tokens: ZTokensService) {}
-
-  /**
-   * Convenience method for UIs that want route guards for token auth.
-   *
-   * Returns a status of 204 if your cookie token is valid, and 401 if not authenticated.
-   *
-   * @param res The http response object.  This will receive the 204 status.
-   *
-   * @returns A Promise that resolves to a status of 204 if the cookie token is valid, and 401 if it is not authenticated.
-   */
-  @Get()
-  @UseGuards(ZRuleCookieRequiresAuthAny)
-  public async verify(@Res() res: Response) {
-    res.sendStatus(204);
-  }
 
   /**
    * Logs the user into the system.
