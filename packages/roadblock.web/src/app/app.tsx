@@ -31,10 +31,10 @@ export function ZRoadblockApp() {
   });
 
   return (
-    <div className='Zthunworks-root' data-testid='Zthunworks-root'>
+    <div className='ZRoadblockApp-root' data-testid='ZRoadblockApp-root'>
       <HashRouter>
         <ZRoadblockMenu />
-        <article className='Zthunworks-article' data-testid='Zthunworks-article'>
+        <article className='ZRoadblockApp-article' data-testid='ZRoadblockApp-article'>
           <Switch>
             <Route exact path='/login' component={ZRoadblockLoginPage} />
             <Route exact path='/profile' component={ZRoadblockProfilePage} />
@@ -44,7 +44,7 @@ export function ZRoadblockApp() {
           </Switch>
         </article>
       </HashRouter>
-      <Snackbar className='Zthunworks-snackbar' open={true} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <Snackbar className='ZRoadblockApp-snackbar' open={true} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
         <ZAlertStackList />
       </Snackbar>
     </div>

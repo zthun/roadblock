@@ -12,7 +12,7 @@ import { ZRoadblockLoginPage } from './login-page';
 
 jest.mock('axios');
 
-describe('ZLoginPage', () => {
+describe('ZRoadblockLoginPage', () => {
   let state: IZDataState<IZProfile>;
   let alerts: IZAlertStack;
 
@@ -43,7 +43,7 @@ describe('ZLoginPage', () => {
       await act(async () => {
         target = await createTestTarget();
       });
-      const actual = target.getByTestId('ZLoginPage-progress-loading');
+      const actual = target.getByTestId('ZRoadblockLoginPage-progress-loading');
       // Assert
       expect(actual).toBeTruthy();
     });
@@ -68,8 +68,8 @@ describe('ZLoginPage', () => {
       await act(async () => {
         target = await createTestTarget();
       });
-      const progress = target.queryByTestId('ZLoginPage-progress-loading');
-      const tabs = target.queryByTestId('ZLoginPage-tabs');
+      const progress = target.queryByTestId('ZRoadblockLoginPage-progress-loading');
+      const tabs = target.queryByTestId('ZRoadblockLoginPage-tabs');
       // Assert
       expect(progress).toBeFalsy();
       expect(tabs).toBeFalsy();

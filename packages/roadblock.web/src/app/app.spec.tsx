@@ -8,7 +8,7 @@ import { renderStatusCodePage, ZRoadblockApp } from './app';
 
 jest.mock('axios');
 
-describe('ZthunworksApp', () => {
+describe('ZRoadblockApp', () => {
   let profile: IZProfile;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('ZthunworksApp', () => {
     // Arrange
     const target = render(<ZRoadblockApp />);
     // Act
-    const actual = target.queryByTestId('Zthunworks-root');
+    const actual = target.queryByTestId('ZRoadblockApp-root');
     // Assert
     expect(actual).toBeTruthy();
   });

@@ -100,7 +100,7 @@ export function ZRoadblockLoginPage(): JSX.Element {
    * @returns The jsx that contains the loading progress.
    */
   function createProgressLoading() {
-    return <CircularProgress className='ZLoginPage-progress-loading' data-testid='ZLoginPage-progress-loading' color='inherit' />;
+    return <CircularProgress className='ZRoadblockLoginPage-progress-loading' data-testid='ZRoadblockLoginPage-progress-loading' color='inherit' />;
   }
 
   /**
@@ -118,7 +118,7 @@ export function ZRoadblockLoginPage(): JSX.Element {
    * @returns The jsx that renders a redirection.
    */
   function createRedirect() {
-    return <Redirect data-testid='ZLoginPage-redirect-profile' to='/profile' />;
+    return <Redirect data-testid='ZRoadblockLoginPage-redirect-profile' to='/profile' />;
   }
 
   /**
@@ -141,7 +141,7 @@ export function ZRoadblockLoginPage(): JSX.Element {
   const content = createContent();
 
   return (
-    <Grid container={true} spacing={3} justifyContent='center' className='ZLoginPage-root' data-testid='ZLoginPage-root'>
+    <Grid container={true} spacing={3} justifyContent='center' className='ZRoadblockLoginPage-root' data-testid='ZRoadblockLoginPage-root'>
       <Grid item={true}>{content}</Grid>
     </Grid>
   );
