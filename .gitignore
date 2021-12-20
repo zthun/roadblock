@@ -1,4 +1,5 @@
 # Output
+reports
 coverage
 docs
 
@@ -104,3 +105,7 @@ dist
 
 # OS Turds
 .DS_Store
+
+# Yarn
+.yarn/cache
+.yarn/*.gz
