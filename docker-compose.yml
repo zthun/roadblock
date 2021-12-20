@@ -25,12 +25,29 @@ services:
       - 9229:9229
     volumes:
       - .:/usr/dev
+    depends_on:
+      - zthunworks-services-users
+      - zthunworks-services-vault
+      - zthunworks-services-notifications
+      - zthunworks-services-cookies
+    working_dir: /usr/dev
+    command: npm --workspace @zthun/roadblock.api run debug
+  zthunworks-services-users:
+    image: zthun/works.users:2.2.0
     environment:
       - DATABASE_URL=mongodb://roadblock-database:27017
     depends_on:
       - roadblock-database
-    working_dir: /usr/dev
-    command: npm --workspace @zthun/roadblock.api run debug
+  zthunworks-services-vault:
+    image: zthun/works.vault:2.2.0
+    environment:
+      - DATABASE_URL=mongodb://roadblock-database:27017
+    depends_on:
+      - roadblock-database
+  zthunworks-services-notifications:
+    image: zthun/works.notifications:2.2.0
+  zthunworks-services-cookies:
+    image: zthun/works.cookies:2.2.0
   # Databases
   roadblock-database:
     image: mongo:4.2.0
@@ -43,3 +60,8 @@ services:
       - roadblock-database
     environment:
       - ME_CONFIG_MONGODB_SERVER=roadblock-database
+  smtp.zthunworks.com:
+    image: rnwood/smtp4dev:v3.1
+    ports:
+      - 8083:80
+      - 25:25
