@@ -2,8 +2,8 @@
 import { IZConfigEntry, IZEmail, IZLogin, IZProfile, IZServer, IZUser, ZConfigEntryBuilder, ZLoginBuilder, ZProfileBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
 import { ZNotificationsClient, ZUsersClient } from '@zthun/works.microservices';
+import { ZWorksConfigService } from '@zthun/works.nest';
 import { v4 } from 'uuid';
-import { ZWorksConfigService } from '../../config/works-config.service';
 import { ZProfilesService } from './profiles.service';
 
 describe('ZProfilesService', () => {

@@ -1,10 +1,10 @@
 /* eslint-disable require-jsdoc */
 import { IZProfile, ZLoginBuilder, ZProfileActivationBuilder, ZProfileBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
+import { ZSecurityService } from '@zthun/works.nest';
 import { plainToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { v4 } from 'uuid';
-import { ZSecurityService } from '../../security/security.service';
 import { ZProfileActivationCreateDto } from './profile-activation-create.dto';
 import { ZProfileActivationUpdateDto } from './profile-activation-update.dto';
 import { ZProfileCreateDto } from './profile-create.dto';

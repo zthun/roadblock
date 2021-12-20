@@ -28,14 +28,12 @@
     "@nestjs/core": "^8.2.4",
     "@nestjs/microservices": "^8.2.4",
     "@nestjs/platform-express": "^8.2.4",
-    "@zthun/works.core": "^2.2.0",
-    "@zthun/works.microservices": "^2.2.0",
-    "@zthun/works.nest": "^2.2.0",
-    "jsonwebtoken": "^8.5.1",
+    "@zthun/works.core": "^2.3.0",
+    "@zthun/works.microservices": "^2.3.0",
+    "@zthun/works.nest": "^2.3.0",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.4.0",
-    "uuid": "^8.3.2"
+    "rxjs": "^7.4.0"
   },
   "files": [
     "dist/**",
