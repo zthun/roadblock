@@ -3,9 +3,7 @@
   "compilerOptions": {
     "baseUrl": "packages",
     "target": "esnext",
-    "paths": {
-      "@zthun/rnt.core": ["rnt.core/src/index"]
-    }
+    "paths": {}
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/node_modules/**"]
