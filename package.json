@@ -19,12 +19,13 @@
     "test": "jest --coverage --runInBand",
     "lint": "lint-janitor",
     "build": "lerna run build",
-    "make": "npm run clean && npm run lint && npm test && npm run build",
+    "make": "yarn clean && yarn lint && yarn test && yarn build",
     "docker:publish": "lerna run docker:publish",
     "docker:build": "lerna run docker:build",
-    "docker": "npm run docker:build && npm run docker:publish",
+    "docker": "yarn docker:build && yarn docker:publish",
     "prepare": "husky install",
-    "release": "npm run make && lerna publish --conventional-commits -m \"chore: publish [skip ci]\""
+    "release:publish": "lerna publish --conventional-commits -m \"chore: publish [skip ci]\"",
+    "release": "yarn make && yarn release:publish"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
@@ -36,7 +37,7 @@
     "@types/jest": "^27.0.3",
     "@types/jsdom": "^16.2.14",
     "@types/lodash": "^4.14.178",
-    "@types/node": "^17.0.1",
+    "@types/node": "^17.0.2",
     "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
