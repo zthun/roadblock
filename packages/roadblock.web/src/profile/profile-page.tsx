@@ -1,14 +1,18 @@
-import { Grid, Typography } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
+import { Grid, Typography } from '@mui/material';
 import { IZProfile, IZProfileActivation, ZProfileActivationBuilder } from '@zthun/works.core';
 import { ZAlertBuilder } from '@zthun/works.message';
-import { useAlertService, useErrorHandler, useProfileAndWatch, useProfileService, ZCircularProgress, ZPaperCard, ZProfileActivationForm, ZProfileForm } from '@zthun/works.react';
+import { useAlertService, useErrorHandler, useIdentityAndWatch, ZCircularProgress, ZPaperCard } from '@zthun/works.react';
 import { get } from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { useSafeState } from '../core/use-safe-state';
+import { ZProfileActivationForm } from './profile-activation-form';
+import { ZProfileForm } from './profile-form';
+import { useProfileService } from './profile-service.context';
 
 /**
  * Renders the profile page.
@@ -16,17 +20,17 @@ import { Redirect } from 'react-router-dom';
  * @returns The jsx that renders the profile page.
  */
 export function ZProfilePage() {
-  const profile = useProfileAndWatch();
+  const profile = useIdentityAndWatch();
   const alerts = useAlertService();
   const errors = useErrorHandler();
   const profileSvc = useProfileService();
-  const [loggingOut, setLoggingOut] = useState(false);
-  const [activating, setActivating] = useState(false);
-  const [deactivating, setDeactivating] = useState(false);
-  const [reactivating, setReactivating] = useState(false);
-  const [updatingProfile, setUpdatingProfile] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-  const [activation, setActivation] = useState(new ZProfileActivationBuilder().email(get(profile.data, 'email', null)).build());
+  const [loggingOut, setLoggingOut] = useSafeState(false);
+  const [activating, setActivating] = useSafeState(false);
+  const [deactivating, setDeactivating] = useSafeState(false);
+  const [reactivating, setReactivating] = useSafeState(false);
+  const [updatingProfile, setUpdatingProfile] = useSafeState(false);
+  const [deleting, setDeleting] = useSafeState(false);
+  const [activation, setActivation] = useSafeState(new ZProfileActivationBuilder().email(get(profile.data, 'email', null)).build());
   const waiting = deleting || deactivating || updatingProfile || activating || reactivating || loggingOut;
 
   /**
