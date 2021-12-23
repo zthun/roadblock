@@ -1,6 +1,6 @@
 {
   "name": "@zthun/roadblock.api",
-  "version": "1.0.0-0",
+  "version": "0.0.0",
   "description": "This is the roadblock api used to get cookie tokens for the user on the given domain.",
   "author": "Anthony Bonta",
   "license": "MIT",
