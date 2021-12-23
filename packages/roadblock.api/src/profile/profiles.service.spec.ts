@@ -1,38 +1,27 @@
 /* eslint-disable require-jsdoc */
-import { IZConfigEntry, IZEmail, IZLogin, IZProfile, IZServer, IZUser, ZConfigEntryBuilder, ZLoginBuilder, ZProfileBuilder, ZUserBuilder } from '@zthun/works.core';
+import { IZEmail, IZLogin, IZProfile, IZUser, ZLoginBuilder, ZProfileBuilder, ZUserBuilder } from '@zthun/works.core';
 import { createMocked } from '@zthun/works.jest';
-import { ZNotificationsClient, ZUsersClient } from '@zthun/works.microservices';
-import { ZWorksConfigService } from '@zthun/works.nest';
+import { ZNotificationsClient, ZUsersClient, ZVaultMemoryClient } from '@zthun/works.microservices';
+import { ZConfigEntries } from '@zthun/works.nest';
 import { v4 } from 'uuid';
 import { ZProfilesService } from './profiles.service';
 
 describe('ZProfilesService', () => {
-  let smtp: IZConfigEntry<IZServer>;
-  let notifier: IZConfigEntry<string>;
-  let domain: IZConfigEntry<string>;
-
   let users: jest.Mocked<ZUsersClient>;
   let email: jest.Mocked<ZNotificationsClient>;
-  let config: jest.Mocked<ZWorksConfigService>;
+  let vault: ZVaultMemoryClient;
 
   function createTestTarget() {
-    return new ZProfilesService(users, email, config);
+    return new ZProfilesService(users, email, vault);
   }
 
   beforeEach(() => {
-    smtp = new ZConfigEntryBuilder().scope(ZWorksConfigService.SCOPE_NOTIFICATIONS).key(ZWorksConfigService.KEY_NOTIFICATIONS_SMTP).value(ZWorksConfigService.VALUE_NOTIFICATIONS_SMTP).build();
-    notifier = new ZConfigEntryBuilder().scope(ZWorksConfigService.SCOPE_NOTIFICATIONS).key(ZWorksConfigService.KEY_NOTIFICATIONS_NOTIFIER).value(ZWorksConfigService.VALUE_NOTIFICATIONS_NOTIFIER).build();
-    domain = new ZConfigEntryBuilder().scope(ZWorksConfigService.SCOPE_COMMON).key(ZWorksConfigService.KEY_COMMON_DOMAIN).value(ZWorksConfigService.VALUE_COMMON_DOMAIN).build();
+    vault = new ZVaultMemoryClient();
 
     users = createMocked<ZUsersClient>(['create', 'update', 'remove', 'activate', 'deactivate', 'recover', 'findByEmail']);
 
     email = createMocked<ZNotificationsClient>(['sendEmail']);
     email.sendEmail.mockReturnValue(Promise.resolve(null));
-
-    config = createMocked<ZWorksConfigService>(['domain', 'smtp', 'notifier']);
-    config.domain.mockResolvedValue(domain);
-    config.smtp.mockResolvedValue(smtp);
-    config.notifier.mockResolvedValue(notifier);
   });
 
   describe('Create', () => {
@@ -58,7 +47,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.create(login);
       // Assert
-      expect(email.sendEmail).toHaveBeenCalledWith(expect.anything(), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.anything(), ZConfigEntries.notifications.smtp.value);
     });
 
     it('does not send the activation email for the super user.', async () => {
@@ -100,7 +89,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.update(current, profile);
       // Assert
-      expect(email.sendEmail).toHaveBeenCalledWith(expect.anything(), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.anything(), ZConfigEntries.notifications.smtp.value);
     });
   });
 
@@ -139,7 +128,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.sendActivationEmail(user);
       // Assert
-      expect(email.sendEmail).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), ZConfigEntries.notifications.smtp.value);
     });
 
     it('activates the user with the given email.', async () => {
@@ -175,7 +164,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.reactivate(user.email);
       // Assert
-      expect(email.sendEmail).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining(user.activator.key) }), ZConfigEntries.notifications.smtp.value);
     });
   });
 
@@ -208,7 +197,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.recoverPassword(user.email);
       // Assert
-      expect(email.sendEmail).toHaveBeenCalledWith(expected, smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expected, ZConfigEntries.notifications.smtp.value);
     });
 
     it('sends the email with the expiration date.', async () => {
@@ -219,7 +208,7 @@ describe('ZProfilesService', () => {
       // Act
       await target.recoverPassword(user.email);
       // Assert
-      expect(email.sendEmail).toHaveBeenCalledWith(expected, smtp.value);
+      expect(email.sendEmail).toHaveBeenCalledWith(expected, ZConfigEntries.notifications.smtp.value);
     });
   });
 });
