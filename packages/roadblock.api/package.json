@@ -20,7 +20,7 @@
   },
   "scripts": {
     "docker:publish": "docker push zthun/roadblock.api && docker push zthun/roadblock.api:$(node -p \"require('./package.json').version\")",
-    "docker:build": "docker build . -t zthun/roadblock.api:latest -t zthun/roadblock.api:$(node -p \"require('./package.json').version\")",
+    "docker:build": "npm pack && docker build . -t zthun/roadblock.api:latest -t zthun/roadblock.api:$(node -p \"require('./package.json').version\")",
     "debug": "nodemon",
     "build": "tsc -p ./tsconfig.prod.json",
     "start": "node ./dist/main.js"
