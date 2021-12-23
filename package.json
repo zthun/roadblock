@@ -15,7 +15,7 @@
     "packages/roadblock.web"
   ],
   "scripts": {
-    "clean": "rimraf dist docs reports *.tgz *.log packages/**/dist packages/**/docs packages/**/*.tgz packages/**/*.log",
+    "clean": "rimraf 'dist' 'docs' 'reports' '*.tgz' '*.log' 'packages/**/dist' 'packages/**/docs' 'packages/**/*.tgz' 'packages/**/*.log'",
     "test": "jest --coverage --runInBand",
     "lint": "lint-janitor",
     "build": "lerna run build",
