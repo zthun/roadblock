@@ -4,14 +4,14 @@ import { IZProfile, ZProfileBuilder } from '@zthun/works.core';
 import { IZErrorHandler } from '@zthun/works.error';
 import { createMocked } from '@zthun/works.jest';
 import { IZAlertService, ZAlertSeverity } from '@zthun/works.message';
-import { IZDataState, IZProfileService, ZAlertServiceContext, ZDataState, ZErrorHandlerContext, ZIdentityContext } from '@zthun/works.react';
+import { IZDataState, ZAlertServiceContext, ZDataState, ZErrorHandlerContext, ZIdentityContext } from '@zthun/works.react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { lastValueFrom, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { v4 } from 'uuid';
 import { ZProfilePage } from './profile-page';
-import { ZProfileServiceContext } from './profile-service.context';
+import { IZProfileService, ZProfileServiceContext } from './profile-service.context';
 
 describe('ZProfilePage', () => {
   let profile: IZProfile;
@@ -48,12 +48,10 @@ describe('ZProfilePage', () => {
     alerts = createMocked<IZAlertService>(['create']);
     errors = createMocked<IZErrorHandler>(['handle']);
 
-    profileSvc = createMocked<IZProfileService>(['read', 'update', 'delete', 'getAvatar', 'getDisplay', 'login', 'logout', 'activate', 'deactivate', 'reactivate']);
+    profileSvc = createMocked<IZProfileService>(['read', 'update', 'delete', 'login', 'logout', 'activate', 'deactivate', 'reactivate']);
     profileSvc.read.mockResolvedValue(null);
     profileSvc.delete.mockResolvedValue(null);
     profileSvc.update.mockResolvedValue(null);
-    profileSvc.getAvatar.mockResolvedValue(null);
-    profileSvc.getDisplay.mockResolvedValue('');
     profileSvc.login.mockResolvedValue(null);
     profileSvc.logout.mockResolvedValue(null);
     profileSvc.activate.mockResolvedValue(null);
