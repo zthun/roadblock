@@ -1,9 +1,10 @@
 import { CircularProgress, Grid } from '@mui/material';
 import { IZLogin } from '@zthun/works.core';
 import { ZAlertBuilder } from '@zthun/works.message';
-import { useAlertService, useErrorHandler, useIdentityAndWatch, useProfileService } from '@zthun/works.react';
+import { useAlertService, useErrorHandler, useIdentityAndWatch } from '@zthun/works.react';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useProfileService } from '../profile/profile-service.context';
 import { ZLoginTabs } from './login-tabs';
 
 /**

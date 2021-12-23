@@ -4,12 +4,13 @@ import { IZProfile, ZProfileBuilder } from '@zthun/works.core';
 import { IZErrorHandler } from '@zthun/works.error';
 import { createMocked } from '@zthun/works.jest';
 import { IZAlertService, ZAlertSeverity } from '@zthun/works.message';
-import { IZDataState, IZProfileService, ZAlertServiceContext, ZDataState, ZErrorHandlerContext, ZIdentityContext, ZProfileServiceContext } from '@zthun/works.react';
+import { IZDataState, ZAlertServiceContext, ZDataState, ZErrorHandlerContext, ZIdentityContext } from '@zthun/works.react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MemoryRouter } from 'react-router-dom';
 import { lastValueFrom, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { IZProfileService, ZProfileServiceContext } from '../profile/profile-service.context';
 import { ZLoginPage } from './login-page';
 
 describe('ZLoginPage', () => {
