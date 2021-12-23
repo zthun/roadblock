@@ -2601,7 +2601,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.2.4":
+"@mui/icons-material@npm:^5.2.5":
   version: 5.2.5
   resolution: "@mui/icons-material@npm:5.2.5"
   dependencies:
@@ -2617,7 +2617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.2.4":
+"@mui/material@npm:^5.2.5":
   version: 5.2.5
   resolution: "@mui/material@npm:5.2.5"
   dependencies:
@@ -2687,7 +2687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/system@npm:^5.2.4, @mui/system@npm:^5.2.5":
+"@mui/system@npm:^5.2.5":
   version: 5.2.5
   resolution: "@mui/system@npm:5.2.5"
   dependencies:
@@ -4140,7 +4140,7 @@ __metadata:
   dependencies:
     "@zthun/works.core": ^3.0.0
     "@zthun/works.draw": ^3.0.0
-    "@zthun/works.react": ^3.0.0
+    "@zthun/works.react": ^3.0.1
     "@zthun/works.url": ^3.0.0
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -4313,15 +4313,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/works.react@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@zthun/works.react@npm:3.0.0"
+"@zthun/works.react@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@zthun/works.react@npm:3.0.1"
   dependencies:
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
-    "@mui/icons-material": ^5.2.4
-    "@mui/material": ^5.2.4
-    "@mui/system": ^5.2.4
+    "@mui/icons-material": ^5.2.5
+    "@mui/material": ^5.2.5
+    "@mui/system": ^5.2.5
     "@zthun/works.core": ^3.0.0
     "@zthun/works.draw": ^3.0.0
     "@zthun/works.error": ^3.0.0
@@ -4340,7 +4340,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.0
     react-dom: ^17.0.0
-  checksum: bc842a6bb34eae072f70182856f89f59b367c09e38f5ee04ba9fe43a9f34f014adbb3dee03ae539342dd7b63820bcc735848657e55cdf28331db58790b76a662
+  checksum: 463f17fc611ebc586a2296314e77e6ebd73446bb6a4f7838262db001cddadf08e385383f5011feac06a7d141027203e2ceef9eddf68ccdeeeabeed6ff55e8a6a
   languageName: node
   linkType: hard
 
