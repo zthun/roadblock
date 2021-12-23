@@ -1,25 +1,26 @@
 {
-    "version": "0.1",
-    "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/master/cspell.schema.json",
-    "language": "en",
-    "words": [
-        "Bonta",
-        "commitlint",
-        "favicons",
-        "htmlhint",
-        "markdownlint",
-        "microservices",
-        "nestjs",
-        "stylelint",
-        "testid",
-        "typedoc",
-        "zthun",
-        "Zthunworks"
-    ],
-    "dictionaries": [
-        "typescript",
-        "node",
-        "npm",
-        "en_US"
-    ]
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/master/cspell.schema.json",
+  "language": "en",
+  "words": [
+    "Bonta",
+    "commitlint",
+    "favicons",
+    "htmlhint",
+    "markdownlint",
+    "microservices",
+    "midground",
+    "nestjs",
+    "rnwood",
+    "stylelint",
+    "testid",
+    "typedoc",
+    "zthun",
+    "Zthunworks"
+  ],
+  "dictionaries": [
+    "typescript",
+    "node",
+    "npm",
+    "en_US"
+  ]
 }

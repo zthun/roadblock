@@ -1,11 +1,20 @@
-module.exports = require('@zthun/eslint-config');
-
-config.settings = config.settings || {};
-config.settings.react = config.settings.react || {};
-config.settings.react.version = 'detect';
-
-config.rules = config.rules || {};
-config.rules['no-use-before-define'] = 'off';
-config.rules['react/prop-types'] = 'off';
-
-module.exports = config;
+module.exports = {
+  extends: ['@zthun/eslint-config'],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
+  rules: {
+    'no-use-before-define': 'off',
+    'quotes': [
+      'error',
+      'single',
+      {
+        avoidEscape: true,
+        allowTemplateLiterals: true
+      }
+    ],
+    'react/prop-types': 'off'
+  }
+};
