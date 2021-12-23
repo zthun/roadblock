@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   # Load Balancer (Entry Point)
   roadblock.local.zthunworks.com:
@@ -35,21 +34,23 @@ services:
     working_dir: /usr/dev
     command: npm --workspace @zthun/roadblock.api run debug
   zthunworks-services-users:
-    image: zthun/works.users:2.3.0
+    image: zthun/works.users:3.0.0
     environment:
       - DATABASE_URL=mongodb://roadblock-database:27017
     depends_on:
       - roadblock-database
   zthunworks-services-vault:
-    image: zthun/works.vault:2.3.0
+    image: zthun/works.vault:3.0.0
     environment:
       - DATABASE_URL=mongodb://roadblock-database:27017
     depends_on:
       - roadblock-database
   zthunworks-services-notifications:
-    image: zthun/works.notifications:2.3.0
+    image: zthun/works.notifications:3.0.0
   zthunworks-services-cookies:
-    image: zthun/works.cookies:2.3.0
+    image: zthun/works.cookies:3.0.0
+  zthunworks-services-apps:
+    image: zthun/works.apps:3.0.0
   # Databases
   roadblock-database:
     image: mongo:4.2.0
