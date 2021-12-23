@@ -1,6 +1,6 @@
 {
   "name": "@zthun/roadblock.web",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "The web client for the roadblock application.",
   "browser": "./dist/roadblock.web.min.js",
   "private": true,

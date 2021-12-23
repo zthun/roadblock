@@ -1,6 +1,6 @@
 {
   "name": "@zthun/roadblock.proxy",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "description": "A reverse proxy for the roadblock service that is meant to run in docker for development.",
   "author": "Anthony Bonta",

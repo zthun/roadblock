@@ -1,7 +1,9 @@
 {
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/*"
+  ],
   "stream": true,
-  "version": "1.0.0-0",
+  "version": "1.0.0",
   "command": {
     "publish": {
       "message": "chore(release): publish [skip ci]"
@@ -9,7 +11,9 @@
   },
   "changelogPreset": {
     "name": "conventionalcommits",
-    "issuePrefixes": ["#"],
+    "issuePrefixes": [
+      "#"
+    ],
     "types": [
       {
         "type": "feat",
