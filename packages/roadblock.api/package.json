@@ -26,16 +26,16 @@
     "start": "node ./dist/main.js"
   },
   "dependencies": {
-    "@nestjs/common": "^8.2.4",
-    "@nestjs/core": "^8.2.4",
-    "@nestjs/microservices": "^8.2.4",
-    "@nestjs/platform-express": "^8.2.4",
-    "@zthun/works.core": "^3.0.0",
-    "@zthun/works.microservices": "^3.0.0",
-    "@zthun/works.nest": "^3.0.0",
+    "@nestjs/common": "^8.2.6",
+    "@nestjs/core": "^8.2.6",
+    "@nestjs/microservices": "^8.2.6",
+    "@nestjs/platform-express": "^8.2.6",
+    "@zthun/works.core": "^3.0.2",
+    "@zthun/works.microservices": "^3.0.7",
+    "@zthun/works.nest": "^3.1.0",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.4.0"
+    "rxjs": "^7.5.2"
   },
   "files": [
     "dist/**",

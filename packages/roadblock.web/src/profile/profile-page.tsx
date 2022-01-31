@@ -154,7 +154,7 @@ export function ZProfilePage() {
   function createProfileLoading() {
     return (
       <Grid item>
-        <ZCircularProgress className='ZProfilePage-progress-profile-loading' data-testid='ZProfilePage-progress-profile-loading' size='5em' />
+        <ZCircularProgress className='ZProfilePage-progress-profile-loading' data-testid='ZProfilePage-progress-profile-loading' size='xl' />
       </Grid>
     );
   }
