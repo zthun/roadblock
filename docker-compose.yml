@@ -1,7 +1,7 @@
 services:
   # Load Balancer (Entry Point)
   roadblock.local.zthunworks.com:
-    image: zthun/works.proxy:1.0.0
+    image: zthun/works.proxy:latest
     ports:
       - 80:80
       - 443:443
@@ -15,13 +15,13 @@ services:
       - ./packages/roadblock.proxy/conf.d:/etc/nginx/conf.d
   # Node Ports
   roadblock-services-web:
-    image: node:16.6.0
+    image: node:17.3.0
     volumes:
       - .:/usr/dev
     working_dir: /usr/dev
     command: npm --workspace @zthun/roadblock.web run debug
   roadblock-services-api:
-    image: node:16.6.0
+    image: node:17.3.0
     ports:
       - 9229:9229
     volumes:
@@ -31,32 +31,33 @@ services:
       - zthunworks-services-vault
       - zthunworks-services-notifications
       - zthunworks-services-cookies
+      - zthunworks-services-apps
     working_dir: /usr/dev
     command: npm --workspace @zthun/roadblock.api run debug
   zthunworks-services-users:
-    image: zthun/works.users:3.0.1
+    image: zthun/works.users:latest
     environment:
       - DATABASE_URL=mongodb://roadblock-database:27017
     depends_on:
       - roadblock-database
   zthunworks-services-vault:
-    image: zthun/works.vault:3.0.1
+    image: zthun/works.vault:latest
     environment:
       - DATABASE_URL=mongodb://roadblock-database:27017
     depends_on:
       - roadblock-database
   zthunworks-services-notifications:
-    image: zthun/works.notifications:3.0.0
+    image: zthun/works.notifications:latest
   zthunworks-services-cookies:
-    image: zthun/works.cookies:3.0.0
+    image: zthun/works.cookies:latest
   zthunworks-services-apps:
-    image: zthun/works.apps:3.0.1
+    image: zthun/works.apps:latest
   # Databases
   roadblock-database:
-    image: mongo:4.2.0
+    image: mongo:5.0.5
   # Utilities
   database.zthunworks.com:
-    image: mongo-express:0.49
+    image: mongo-express:0.54.0
     depends_on:
       - roadblock-database
     environment:
