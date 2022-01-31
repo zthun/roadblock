@@ -11,7 +11,7 @@
   },
   "main": "./dist/main.js",
   "bin": {
-    "zthun-roadblock": "./bin/main.js"
+    "zthun-roadblock-api": "./bin/main.js"
   },
   "engines": {
     "node": ">=16.6.0 <18.0.0"
