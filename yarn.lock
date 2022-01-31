@@ -4408,7 +4408,7 @@ __metadata:
     reflect-metadata: ^0.1.13
     rxjs: ^7.5.2
   bin:
-    zthun-roadblock: ./bin/main.js
+    zthun-roadblock-api: ./bin/main.js
   languageName: unknown
   linkType: soft
 
