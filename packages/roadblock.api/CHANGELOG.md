@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/zthun/roadblock/compare/v1.0.0...v2.0.0) (2022-01-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* changing api bin name
+
+### Build System
+
+* changing api bin name ([5fa3405](https://github.com/zthun/roadblock/commit/5fa34052e93748ee2378f4a60aafd7e6fde16916))
+
+
+
 ## 1.0.0 (2021-12-23)
 
 
