@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "The web client for the roadblock application.",
   "browser": "./dist/roadblock.web.min.js",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/zthun/roadblock",
@@ -21,8 +20,8 @@
     "access": "public"
   },
   "files": [
-    "dist/**",
-    "images/**"
+    "dist",
+    "images"
   ],
   "devDependencies": {
     "@zthun/works.core": "^3.0.2",

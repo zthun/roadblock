@@ -9,14 +9,15 @@
     "url": "https://github.com/zthun/roadblock",
     "directory": "packages/roadblock.api"
   },
-  "private": true,
   "main": "./dist/main.js",
   "bin": {
     "zthun-roadblock": "./bin/main.js"
   },
   "engines": {
-    "node": "^16.6.0",
-    "npm": "^7.19.0"
+    "node": ">=16.6.0 <18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "docker:publish": "docker push zthun/roadblock.api && docker push zthun/roadblock.api:$(node -p \"require('./package.json').version\")",
@@ -38,9 +39,8 @@
     "rxjs": "^7.5.2"
   },
   "files": [
-    "dist/**",
-    "docs/**",
-    "images/**"
+    "dist",
+    "images"
   ],
   "sideEffects": false
 }
