@@ -1,0 +1,88 @@
+version: 2.1
+
+executors:
+  system:
+    machine:
+      image: ubuntu-2004:202111-02
+
+commands:
+  run_docker_target:
+    parameters:
+      target:
+        type: string
+    steps:
+      - checkout
+      - run: mkdir .secrets
+      - run: echo $GIT_CREDENTIALS >> .secrets/.git-credentials
+      - run: echo $NPM_CREDENTIALS >> .secrets/.npmrc
+      - run:
+          command: |
+            export DOCKER_BUILDKIT=1
+            docker build --target <<parameters.target>> --secret id=GIT_CREDENTIALS,src=.secrets/.git-credentials --secret id=NPM_CREDENTIALS,src=.secrets/.npmrc --progress=plain .
+      - run: rm -fr .secrets
+
+jobs:
+  analyze:
+    executor: system
+    steps:
+      - run_docker_target:
+          target: analyze
+
+  test:
+    executor: system
+    steps:
+      - run_docker_target:
+          target: test
+
+  build:
+    executor: system
+    steps:
+      - run_docker_target:
+          target: build
+
+  release:
+    executor: system
+    steps:
+      - run_docker_target:
+          target: release
+
+  dockerize:
+    executor: system
+    steps:
+      - checkout
+      - run:
+          command: |
+            export DOCKER_BUILDKIT=1
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+            docker build . --target roadblock.web -t zthun/roadblock.web:latest -t zthun/roadblock.web:$(npm show @zthun/roadblock.web version) --progress=plain
+            docker build . --target roadblock.api -t zthun/roadblock.api:latest -t zthun/roadblock.api:$(npm show @zthun/roadblock.api version) --progress=plain
+            docker push zthun/roadblock.web:latest
+            docker push zthun/roadblock.web:$(npm show @zthun/roadblock.web version)
+            docker push zthun/roadblock.api:latest
+            docker push zthun/roadblock.api:$(npm show @zthun/roadblock.api version)
+
+workflows:
+  make:
+    jobs:
+      - analyze
+      - test
+      - build:
+          filters:
+            branches:
+              ignore:
+                - latest
+      - release:
+          context:
+            - credentials
+          requires:
+            - analyze
+            - test
+          filters:
+            branches:
+              only:
+                - latest
+      - dockerize:
+          context:
+            - credentials
+          requires:
+            - release
