@@ -20,4 +20,4 @@ export class ZRoadblockMainModule {}
 
 ZNestApplication.create(ZRoadblockMainModule)
   .then((app) => ZNestApplication.run(app))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
