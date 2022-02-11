@@ -18,4 +18,6 @@ import { ZTokensService } from './tokens/tokens.service';
  */
 export class ZRoadblockMainModule {}
 
-ZNestApplication.create(ZRoadblockMainModule).then((app) => ZNestApplication.run(app));
+ZNestApplication.create(ZRoadblockMainModule)
+  .then((app) => ZNestApplication.run(app))
+  .catch((err) => console.log(err));
