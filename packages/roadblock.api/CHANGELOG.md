@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/zthun/roadblock/compare/v2.0.0...v2.1.0) (2022-02-11)
+
+
+### Features
+
+* log startup errors ([db27644](https://github.com/zthun/roadblock/commit/db27644d84c4f2921fe444e9b4ea43be9cd9e540))
+
+
+
 ## [2.0.0](https://github.com/zthun/roadblock/compare/v1.0.0...v2.0.0) (2022-01-31)
 
 
