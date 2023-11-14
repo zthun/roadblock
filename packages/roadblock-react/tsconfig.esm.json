@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist/esm",
+    "sourceMap": false,
+    "module": "es2015",
+    "paths": {}
+  },
+  "exclude": ["src/**/*.spec.ts", "src/**/*.spec.tsx"]
+}

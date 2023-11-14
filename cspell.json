@@ -6,6 +6,7 @@
     "BUILDKIT",
     "commitlint",
     "conventionalcommits",
+    "csstype",
     "dalmart",
     "DOCKERHUB",
     "favicons",

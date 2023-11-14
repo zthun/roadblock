@@ -1,0 +1,67 @@
+{
+  "name": "@zthun/roadblock-react",
+  "version": "2.1.0",
+  "description": "A react component package that contains react based components for roadblock identity.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zthun/roadblock",
+    "directory": "packages/roadblock-react"
+  },
+  "scripts": {
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build": "yarn build:cjs && yarn build:esm",
+    "doc": "typedoc"
+  },
+  "author": "Anthony Bonta",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "images/**",
+    "dist/**",
+    "docs/**"
+  ],
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.3",
+    "@mui/material": "^5.14.4",
+    "@mui/system": "^5.14.4",
+    "@zthun/cirque": "^4.3.1",
+    "@zthun/fashion-boutique": "^0.11.1",
+    "@zthun/fashion-tailor": "^0.11.0",
+    "@zthun/fashion-theme": "^0.11.0",
+    "@zthun/helpful-fn": "^2.3.0",
+    "@zthun/helpful-react": "^2.3.0",
+    "@zthun/webigail-http": "^1.1.0",
+    "@zthun/webigail-url": "^1.1.0",
+    "@zthun/works.core": "^4.0.0",
+    "@zthun/works.draw": "^4.0.0",
+    "@zthun/works.error": "^4.0.0",
+    "csstype": "^3.1.2",
+    "history": "^5.3.0",
+    "lodash": "^4.17.21",
+    "md5": "^2.3.0",
+    "react-router-dom": "^6.15.0",
+    "tss-react": "^4.8.8",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@zthun/cirque-du-react": "^4.3.1",
+    "@zthun/helpful-obligation": "^2.3.0",
+    "typedoc": "^0.24.8",
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.1",
+    "vitest-mock-extended": "^1.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "sideEffects": false
+}

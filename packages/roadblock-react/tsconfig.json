@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "sourceMap": true,
+    "declarationDir": "dist/types",
+    "paths": {
+      "@zthun/works.core": ["../works.core/src/index"],
+      "@zthun/works.draw": ["../works.draw/src/index"],
+      "@zthun/works.error": ["../works.error/src/index"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}
