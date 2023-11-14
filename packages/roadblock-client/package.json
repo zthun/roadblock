@@ -1,6 +1,6 @@
 {
   "name": "@zthun/roadblock-client",
-  "version": "4.0.0",
+  "version": "2.1.0",
   "description": "The works microservice clients for tcp access to each service.",
   "author": "Anthony Bonta",
   "license": "MIT",
