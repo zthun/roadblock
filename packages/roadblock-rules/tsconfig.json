@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declarationDir": "dist/types",
+    "paths": {
+      "@zthun/works.core": ["../works.core/src/index"],
+      "@zthun/works.microservices": ["../works.microservices/src/index"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}
