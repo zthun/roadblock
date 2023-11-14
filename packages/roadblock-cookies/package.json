@@ -1,0 +1,45 @@
+{
+  "name": "@zthun/roadblock-cookies",
+  "version": "2.1.0",
+  "description": "A zthunworks microservice that manages secure cookies for the application.",
+  "author": "Anthony Bonta",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zthun/roadblock",
+    "directory": "packages/roadblock-cookies"
+  },
+  "main": "./dist/main.js",
+  "bin": {
+    "zthun-works-cookies": "./bin/main.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.prod.json",
+    "debug": "nodemon",
+    "start": "node ./dist/main.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "images/**",
+    "dist/**",
+    "docs/**"
+  ],
+  "dependencies": {
+    "@nestjs/common": "^10.1.3",
+    "@nestjs/core": "^10.1.3",
+    "@nestjs/microservices": "^10.1.3",
+    "@zthun/helpful-internet": "^2.3.0",
+    "@zthun/works.core": "^4.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "vitest": "^0.34.1"
+  },
+  "sideEffects": false
+}
