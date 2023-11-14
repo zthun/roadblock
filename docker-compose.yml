@@ -18,7 +18,7 @@ services:
     volumes:
       - .:/usr/dev
     working_dir: /usr/dev
-    command: npm --workspace @zthun/roadblock.web run debug
+    command: npm --workspace @zthun/roadblock-web run debug
   roadblock-services-api:
     image: node:17.3.0
     ports:

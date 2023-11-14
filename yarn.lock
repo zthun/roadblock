@@ -4412,9 +4412,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zthun/roadblock.web@workspace:packages/roadblock.web":
+"@zthun/roadblock-web@workspace:packages/roadblock.web":
   version: 0.0.0-use.local
-  resolution: "@zthun/roadblock.web@workspace:packages/roadblock.web"
+  resolution: "@zthun/roadblock-web@workspace:packages/roadblock.web"
   dependencies:
     "@zthun/works.core": ^3.0.2
     "@zthun/works.draw": ^3.1.0

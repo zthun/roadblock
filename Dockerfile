@@ -26,11 +26,11 @@ RUN --mount=type=secret,id=GIT_CREDENTIALS,dst=/root/.git-credentials npx lerna 
     git push --tags
 RUN --mount=type=secret,id=NPM_CREDENTIALS,dst=/root/.npmrc npx lerna publish from-package --yes
 
-FROM node:17-alpine as roadblock.web.install
-RUN npm install -g @zthun/roadblock.web
+FROM node:17-alpine as roadblock-web-install
+RUN npm install -g @zthun/roadblock-web
 
-FROM nginx:1.21.5-alpine as roadblock.web
-COPY --from=roadblock.web.install /usr/local/lib/node_modules/@zthun/roadblock.web/dist/. /usr/share/nginx/html/
+FROM nginx:1.21.5-alpine as roadblock-web
+COPY --from=roadblock-web-install /usr/local/lib/node_modules/@zthun/roadblock-web/dist/. /usr/share/nginx/html/
 
 FROM node:17-alpine as roadblock-api
 RUN npm install -g @zthun/roadblock-api
