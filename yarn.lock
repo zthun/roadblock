@@ -4412,12 +4412,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zthun/roadblock.proxy@workspace:packages/roadblock.proxy":
-  version: 0.0.0-use.local
-  resolution: "@zthun/roadblock.proxy@workspace:packages/roadblock.proxy"
-  languageName: unknown
-  linkType: soft
-
 "@zthun/roadblock.web@workspace:packages/roadblock.web":
   version: 0.0.0-use.local
   resolution: "@zthun/roadblock.web@workspace:packages/roadblock.web"

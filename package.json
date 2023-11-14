@@ -10,9 +10,7 @@
     "url": "https://github.com/zthun/roadblock"
   },
   "workspaces": [
-    "packages/roadblock.api",
-    "packages/roadblock.proxy",
-    "packages/roadblock.web"
+    "packages/*"
   ],
   "scripts": {
     "clean": "rimraf 'dist' 'docs' 'reports' '*.tgz' '*.log' 'packages/**/dist' 'packages/**/docs' 'packages/**/*.tgz' 'packages/**/*.log'",
