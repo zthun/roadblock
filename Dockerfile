@@ -32,7 +32,7 @@ RUN npm install -g @zthun/roadblock.web
 FROM nginx:1.21.5-alpine as roadblock.web
 COPY --from=roadblock.web.install /usr/local/lib/node_modules/@zthun/roadblock.web/dist/. /usr/share/nginx/html/
 
-FROM node:17-alpine as roadblock.api
-RUN npm install -g @zthun/roadblock.api
+FROM node:17-alpine as roadblock-api
+RUN npm install -g @zthun/roadblock-api
 EXPOSE 3000
 CMD ["zthun-roadblock-api"]

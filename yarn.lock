@@ -4393,9 +4393,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zthun/roadblock.api@workspace:packages/roadblock.api":
+"@zthun/roadblock-api@workspace:packages/roadblock-api":
   version: 0.0.0-use.local
-  resolution: "@zthun/roadblock.api@workspace:packages/roadblock.api"
+  resolution: "@zthun/roadblock-api@workspace:packages/roadblock-api"
   dependencies:
     "@nestjs/common": ^8.2.6
     "@nestjs/core": ^8.2.6
@@ -4420,6 +4420,7 @@ __metadata:
     "@zthun/works.draw": ^3.1.0
     "@zthun/works.react": ^3.1.0
     "@zthun/works.url": ^3.0.7
+    canvas: ^2.11.2
     react: ^17.0.2
     react-dom: ^17.0.2
   languageName: unknown
@@ -5692,6 +5693,18 @@ __metadata:
   version: 1.0.30001291
   resolution: "caniuse-lite@npm:1.0.30001291"
   checksum: ae24be79227036564ccd2ab8a0be8793a2e650941607a9f3e68a967db08d90cf17ded0382c2ce87063051b7200e618ec83bdb12f423ed60665922dc4d8eb8f78
+  languageName: node
+  linkType: hard
+
+"canvas@npm:^2.11.2":
+  version: 2.11.2
+  resolution: "canvas@npm:2.11.2"
+  dependencies:
+    "@mapbox/node-pre-gyp": ^1.0.0
+    nan: ^2.17.0
+    node-gyp: latest
+    simple-get: ^3.0.3
+  checksum: 61e554aef80022841dc836964534082ec21435928498032562089dfb7736215f039c7d99ee546b0cf10780232d9bf310950f8b4d489dc394e0fb6f6adfc97994
   languageName: node
   linkType: hard
 
@@ -11881,6 +11894,15 @@ __metadata:
   dependencies:
     node-gyp: latest
   checksum: 33e1bb4dfca447fe37d4bb5889be55de154828632c8d38646db67293a21afd61ed9909cdf1b886214a64707d935926c4e60e2b09de9edfc2ad58de31d6ce8f39
+  languageName: node
+  linkType: hard
+
+"nan@npm:^2.17.0":
+  version: 2.18.0
+  resolution: "nan@npm:2.18.0"
+  dependencies:
+    node-gyp: latest
+  checksum: 4fe42f58456504eab3105c04a5cffb72066b5f22bd45decf33523cb17e7d6abc33cca2a19829407b9000539c5cb25f410312d4dc5b30220167a3594896ea6a0a
   languageName: node
   linkType: hard
 

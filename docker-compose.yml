@@ -32,7 +32,7 @@ services:
       - zthunworks-services-cookies
       - zthunworks-services-apps
     working_dir: /usr/dev
-    command: npm --workspace @zthun/roadblock.api run debug
+    command: npm --workspace @zthun/roadblock-api run debug
   zthunworks-services-users:
     image: zthun/works.users:latest
     environment:

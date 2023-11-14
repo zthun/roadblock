@@ -55,11 +55,11 @@ jobs:
             export DOCKER_BUILDKIT=1
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker build . --target roadblock.web -t zthun/roadblock.web:latest -t zthun/roadblock.web:$(npm show @zthun/roadblock.web version) --progress=plain
-            docker build . --target roadblock.api -t zthun/roadblock.api:latest -t zthun/roadblock.api:$(npm show @zthun/roadblock.api version) --progress=plain
+            docker build . --target roadblock-api -t zthun/roadblock-api:latest -t zthun/roadblock-api:$(npm show @zthun/roadblock-api version) --progress=plain
             docker push zthun/roadblock.web:latest
             docker push zthun/roadblock.web:$(npm show @zthun/roadblock.web version)
-            docker push zthun/roadblock.api:latest
-            docker push zthun/roadblock.api:$(npm show @zthun/roadblock.api version)
+            docker push zthun/roadblock-api:latest
+            docker push zthun/roadblock-api:$(npm show @zthun/roadblock-api version)
 
 workflows:
   make:
