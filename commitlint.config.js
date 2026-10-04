@@ -1,1 +1,1 @@
-module.exports = require('@commitlint/config-conventional');
+module.exports = require("@commitlint/config-conventional");

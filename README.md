@@ -1,3 +1,4 @@
 # Description
 
-Roadblock is a small micro service that handles basic token based auth for @zthun scoped projects.
+Roadblock is a small library that adds authentication and user support to any
+application in the zthunworks domain.

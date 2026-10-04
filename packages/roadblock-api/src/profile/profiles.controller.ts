@@ -1,18 +1,36 @@
-import { Body, Controller, Delete, Get, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
-import { IZProfile, ZProfileBuilder } from '@zthun/works.core';
-import { ZRuleCookieRequiresAuthActivated, ZRuleCookieRequiresAuthAny, ZRuleCookieRequiresAuthDeactivated, ZRuleCookieRequiresAuthRegular, ZSecurityService } from '@zthun/works.nest';
-import { Request, Response } from 'express';
-import { ZRuleBodyRequiresActivationEmail } from '../rules/rule-body-requires-activation-email.guard';
-import { ZRuleBodyRequiresActivationKey } from '../rules/rule-body-requires-activation-key.guard';
-import { ZRuleBodyRequiresUniqueUser } from '../rules/rule-body-requires-unique-user.guard';
-import { ZProfileActivationCreateDto } from './profile-activation-create.dto';
-import { ZProfileActivationUpdateDto } from './profile-activation-update.dto';
-import { ZProfileCreateDto } from './profile-create.dto';
-import { ZProfileRecoveryCreateDto } from './profile-recovery-create.dto';
-import { ZProfileUpdateDto } from './profile-update.dto';
-import { ZProfilesService } from './profiles.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Req,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
+import type { IZProfile } from "@zthun/works.core";
+import { ZProfileBuilder } from "@zthun/works.core";
+import type { ZSecurityService } from "@zthun/works.nest";
+import {
+  ZRuleCookieRequiresAuthActivated,
+  ZRuleCookieRequiresAuthAny,
+  ZRuleCookieRequiresAuthDeactivated,
+  ZRuleCookieRequiresAuthRegular,
+} from "@zthun/works.nest";
+import type { Request, Response } from "express";
 
-@Controller('profiles')
+import { ZRuleBodyRequiresActivationEmail } from "../rules/rule-body-requires-activation-email.guard";
+import { ZRuleBodyRequiresActivationKey } from "../rules/rule-body-requires-activation-key.guard";
+import { ZRuleBodyRequiresUniqueUser } from "../rules/rule-body-requires-unique-user.guard";
+import type { ZProfileActivationCreateDto } from "./profile-activation-create.dto";
+import type { ZProfileActivationUpdateDto } from "./profile-activation-update.dto";
+import type { ZProfileCreateDto } from "./profile-create.dto";
+import type { ZProfileRecoveryCreateDto } from "./profile-recovery-create.dto";
+import type { ZProfileUpdateDto } from "./profile-update.dto";
+import type { ZProfilesService } from "./profiles.service";
+
+@Controller("profiles")
 /**
  * Same as the users controller, but uses the cookie to get the id and has different permissions.
  *
@@ -25,7 +43,10 @@ export class ZProfilesController {
    * @param _security The security service.
    * @param _profile The profile service.
    */
-  public constructor(private readonly _security: ZSecurityService, private readonly _profile: ZProfilesService) {}
+  public constructor(
+    private readonly _security: ZSecurityService,
+    private readonly _profile: ZProfilesService,
+  ) {}
 
   /**
    * Reads the user profile.
@@ -51,7 +72,10 @@ export class ZProfilesController {
    */
   @Put()
   @UseGuards(ZRuleCookieRequiresAuthAny, ZRuleBodyRequiresUniqueUser)
-  public async update(@Req() req: Request, @Body() profile: ZProfileUpdateDto): Promise<IZProfile> {
+  public async update(
+    @Req() req: Request,
+    @Body() profile: ZProfileUpdateDto,
+  ): Promise<IZProfile> {
     const user = await this._security.extract(req);
     return this._profile.update(user, profile);
   }
@@ -77,7 +101,11 @@ export class ZProfilesController {
    * @returns The user that was deactivated/deleted.
    */
   @Delete()
-  @UseGuards(ZRuleCookieRequiresAuthAny, ZRuleCookieRequiresAuthRegular, ZRuleCookieRequiresAuthActivated)
+  @UseGuards(
+    ZRuleCookieRequiresAuthAny,
+    ZRuleCookieRequiresAuthRegular,
+    ZRuleCookieRequiresAuthActivated,
+  )
   public async remove(@Req() req: Request): Promise<IZProfile> {
     const user = await this._security.extract(req);
     return this._profile.remove(user);
@@ -90,9 +118,16 @@ export class ZProfilesController {
    *
    * @returns The updated profile.
    */
-  @Put('activations')
-  @UseGuards(ZRuleCookieRequiresAuthAny, ZRuleCookieRequiresAuthDeactivated, ZRuleBodyRequiresActivationEmail, ZRuleBodyRequiresActivationKey)
-  public async updateActivation(@Body() dto: ZProfileActivationUpdateDto): Promise<IZProfile> {
+  @Put("activations")
+  @UseGuards(
+    ZRuleCookieRequiresAuthAny,
+    ZRuleCookieRequiresAuthDeactivated,
+    ZRuleBodyRequiresActivationEmail,
+    ZRuleBodyRequiresActivationKey,
+  )
+  public async updateActivation(
+    @Body() dto: ZProfileActivationUpdateDto,
+  ): Promise<IZProfile> {
     return this._profile.activate(dto.email);
   }
 
@@ -103,9 +138,11 @@ export class ZProfilesController {
    *
    * @returns The updated profile.
    */
-  @Post('activations')
+  @Post("activations")
   @UseGuards(ZRuleCookieRequiresAuthAny, ZRuleBodyRequiresActivationEmail)
-  public async createActivation(@Body() dto: ZProfileActivationCreateDto): Promise<IZProfile> {
+  public async createActivation(
+    @Body() dto: ZProfileActivationCreateDto,
+  ): Promise<IZProfile> {
     return this._profile.reactivate(dto.email);
   }
 
@@ -116,8 +153,12 @@ export class ZProfilesController {
    *
    * @returns The updated profile.
    */
-  @Delete('activations')
-  @UseGuards(ZRuleCookieRequiresAuthAny, ZRuleCookieRequiresAuthActivated, ZRuleCookieRequiresAuthRegular)
+  @Delete("activations")
+  @UseGuards(
+    ZRuleCookieRequiresAuthAny,
+    ZRuleCookieRequiresAuthActivated,
+    ZRuleCookieRequiresAuthRegular,
+  )
   public async deleteActivation(@Req() req: Request): Promise<IZProfile> {
     const user = await this._security.extract(req);
     return this._profile.deactivate(user.email);
@@ -131,8 +172,11 @@ export class ZProfilesController {
    *
    * @returns The status returned will be a 204 regardless of whether a recovery email was sent.
    */
-  @Post('recoveries')
-  public async createPasswordRecovery(@Body() dto: ZProfileRecoveryCreateDto, @Res() res: Response): Promise<void> {
+  @Post("recoveries")
+  public async createPasswordRecovery(
+    @Body() dto: ZProfileRecoveryCreateDto,
+    @Res() res: Response,
+  ): Promise<void> {
     await this._profile.recoverPassword(dto.email);
     res.sendStatus(204);
   }

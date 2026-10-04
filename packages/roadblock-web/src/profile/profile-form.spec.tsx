@@ -1,17 +1,24 @@
 /* eslint-disable require-jsdoc */
 
-import { fireEvent, render, RenderResult, waitForElementToBeRemoved } from '@testing-library/react';
-import { IZProfile, ZProfileBuilder } from '@zthun/works.core';
-import { IZImageReader } from '@zthun/works.draw';
-import { createMocked } from '@zthun/works.jest';
-import { ZImageReaderContext } from '@zthun/works.react';
-import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { ZProfileForm } from './profile-form';
+import type { RenderResult } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
+import type { IZProfile } from "@zthun/works.core";
+import { ZProfileBuilder } from "@zthun/works.core";
+import type { IZImageReader } from "@zthun/works.draw";
+import { createMocked } from "@zthun/works.jest";
+import { ZImageReaderContext } from "@zthun/works.react";
+import React from "react";
+import { act } from "react-dom/test-utils";
+import { of } from "rxjs";
+import { delay } from "rxjs/operators";
 
-describe('ZProfileForm', () => {
+import { ZProfileForm } from "./profile-form";
+
+describe("ZProfileForm", () => {
   let onProfileChange: jest.Mock;
   let imageReader: jest.Mocked<IZImageReader>;
   let hideAccountInformation: boolean;
@@ -22,13 +29,19 @@ describe('ZProfileForm', () => {
   async function createTestTarget() {
     return render(
       <ZImageReaderContext.Provider value={imageReader}>
-        <ZProfileForm profile={profile} onProfileChange={onProfileChange} disabled={disabled} hideAccountInformation={hideAccountInformation} hidePassword={hidePassword} />
-      </ZImageReaderContext.Provider>
+        <ZProfileForm
+          profile={profile}
+          onProfileChange={onProfileChange}
+          disabled={disabled}
+          hideAccountInformation={hideAccountInformation}
+          hidePassword={hidePassword}
+        />
+      </ZImageReaderContext.Provider>,
     );
   }
 
   function getField(rend: RenderResult, id: string) {
-    const input = rend.getByTestId(id).getElementsByTagName('input').item(0);
+    const input = rend.getByTestId(id).getElementsByTagName("input").item(0);
     return input;
   }
 
@@ -39,7 +52,7 @@ describe('ZProfileForm', () => {
   }
 
   function clickAction(rend: RenderResult) {
-    const action = rend.getByTestId('ZProfileForm-root');
+    const action = rend.getByTestId("ZProfileForm-root");
     fireEvent.submit(action);
   }
 
@@ -47,19 +60,22 @@ describe('ZProfileForm', () => {
     hideAccountInformation = undefined;
     hidePassword = undefined;
     disabled = undefined;
-    profile = new ZProfileBuilder().email('gambit@marvel.com').display('Gambit').build();
+    profile = new ZProfileBuilder()
+      .email("gambit@marvel.com")
+      .display("Gambit")
+      .build();
 
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = 1;
     canvas.height = 1;
 
-    imageReader = createMocked<IZImageReader>(['read']);
+    imageReader = createMocked<IZImageReader>(["read"]);
     imageReader.read.mockResolvedValue(canvas);
 
     onProfileChange = undefined;
   });
 
-  describe('Disabled', () => {
+  describe("Disabled", () => {
     beforeEach(() => {
       disabled = true;
     });
@@ -73,24 +89,24 @@ describe('ZProfileForm', () => {
       expect(input.disabled).toBeTruthy();
     }
 
-    it('should disable the display field.', async () => {
-      await assertDisablesField('ZProfileForm-input-display');
+    it("should disable the display field.", async () => {
+      await assertDisablesField("ZProfileForm-input-display");
     });
 
-    it('should disable the email field.', async () => {
-      await assertDisablesField('ZProfileForm-input-email');
+    it("should disable the email field.", async () => {
+      await assertDisablesField("ZProfileForm-input-email");
     });
 
-    it('should disable the password field.', async () => {
-      await assertDisablesField('ZProfileForm-input-password');
+    it("should disable the password field.", async () => {
+      await assertDisablesField("ZProfileForm-input-password");
     });
 
-    it('should disable the confirm field.', async () => {
-      await assertDisablesField('ZProfileForm-input-confirm');
+    it("should disable the confirm field.", async () => {
+      await assertDisablesField("ZProfileForm-input-confirm");
     });
   });
 
-  describe('Visibility', () => {
+  describe("Visibility", () => {
     async function assertFieldHidden(id: string) {
       // Arrange
       const target = await createTestTarget();
@@ -100,189 +116,214 @@ describe('ZProfileForm', () => {
       expect(actual).toBeFalsy();
     }
 
-    describe('Account Information', () => {
+    describe("Account Information", () => {
       beforeEach(() => {
         hideAccountInformation = true;
       });
 
-      it('should hide the display if hideAccountInformation is true.', async () => {
-        await assertFieldHidden('ZProfileForm-input-display');
+      it("should hide the display if hideAccountInformation is true.", async () => {
+        await assertFieldHidden("ZProfileForm-input-display");
       });
 
-      it('should hide the email if hideAccountInformation is true.', async () => {
-        await assertFieldHidden('ZProfileForm-input-email');
+      it("should hide the email if hideAccountInformation is true.", async () => {
+        await assertFieldHidden("ZProfileForm-input-email");
       });
     });
 
-    describe('Password', () => {
+    describe("Password", () => {
       beforeEach(() => {
         hidePassword = true;
       });
 
-      it('should hide the password field if hidePassword is true.', async () => {
-        await assertFieldHidden('ZProfileForm-input-password');
+      it("should hide the password field if hidePassword is true.", async () => {
+        await assertFieldHidden("ZProfileForm-input-password");
       });
 
-      it('should hide the confirm field if hidePassword is true.', async () => {
-        await assertFieldHidden('ZProfileForm-input-confirm');
+      it("should hide the confirm field if hidePassword is true.", async () => {
+        await assertFieldHidden("ZProfileForm-input-confirm");
       });
     });
   });
 
-  describe('Email', () => {
-    it('should show the email warning if the email has changed.', async () => {
+  describe("Email", () => {
+    it("should show the email warning if the email has changed.", async () => {
       // Arrange
       const target = await createTestTarget();
-      const updated = 'wolverine@marvel.com';
+      const updated = "wolverine@marvel.com";
       // Act
       await act(async () => {
-        setField(target, 'ZProfileForm-input-email', updated);
+        setField(target, "ZProfileForm-input-email", updated);
       });
-      const actual = target.getByTestId('ZProfileForm-alert-email-dirty-true');
+      const actual = target.getByTestId("ZProfileForm-alert-email-dirty-true");
       // Assert
       expect(actual).toBeTruthy();
     });
 
-    it('should not show the email warning if the email is the original email.', async () => {
+    it("should not show the email warning if the email is the original email.", async () => {
       // Arrange
       const target = await createTestTarget();
       // Act
-      const actual = target.getByTestId('ZProfileForm-alert-email-dirty-false');
+      const actual = target.getByTestId("ZProfileForm-alert-email-dirty-false");
       // Assert
       expect(actual).toBeTruthy();
     });
   });
 
-  describe('Avatar', () => {
+  describe("Avatar", () => {
     beforeEach(() => {
-      profile = new ZProfileBuilder().copy(profile).avatar('https://steamavatar.io/img/14777429602y3IT.jpg').build();
+      profile = new ZProfileBuilder()
+        .copy(profile)
+        .avatar("https://steamavatar.io/img/14777429602y3IT.jpg")
+        .build();
     });
 
-    it('should show the user avatar.', async () => {
+    it("should show the user avatar.", async () => {
       // Arrange
       const target = await createTestTarget();
       // Act
-      const actual = target.getByTestId('ZProfileForm-avatar');
+      const actual = target.getByTestId("ZProfileForm-avatar");
       // Assert
       expect(actual).toBeTruthy();
     });
 
-    it('should open the avatar editor when the user clicks the avatar icon.', async () => {
+    it("should open the avatar editor when the user clicks the avatar icon.", async () => {
       // Arrange
       const target = await createTestTarget();
-      const icon = target.getByTestId('ZProfileForm-avatar');
+      const icon = target.getByTestId("ZProfileForm-avatar");
       // Act
       await act(async () => {
         fireEvent.click(icon);
         await of(true).pipe(delay(0)).toPromise();
       });
-      const actual = target.getByTestId('ZProfileForm-avatar-dialog');
+      const actual = target.getByTestId("ZProfileForm-avatar-dialog");
       // Assert
       expect(actual).toBeTruthy();
     });
 
-    it('should close the avatar editor when the user clicks the Update Avatar button.', async () => {
+    it("should close the avatar editor when the user clicks the Update Avatar button.", async () => {
       // Arrange
       const target = await createTestTarget();
-      const icon = target.getByTestId('ZProfileForm-avatar');
+      const icon = target.getByTestId("ZProfileForm-avatar");
       // Act
       await act(async () => {
         fireEvent.click(icon);
       });
       await act(async () => {
-        const btn = target.getByText('Update Avatar');
+        const btn = target.getByText("Update Avatar");
         fireEvent.click(btn);
-        await waitForElementToBeRemoved(target.queryByTestId('ZProfileForm-avatar-dialog'));
+        await waitForElementToBeRemoved(
+          target.queryByTestId("ZProfileForm-avatar-dialog"),
+        );
       });
-      const actual = target.queryByTestId('ZProfileForm-avatar-dialog');
+      const actual = target.queryByTestId("ZProfileForm-avatar-dialog");
       // Assert
       expect(actual).toBeFalsy();
     });
   });
 
-  describe('Save', () => {
+  describe("Save", () => {
     beforeEach(() => {
       onProfileChange = jest.fn();
     });
 
-    it('should fire the profileChange method with the updated profile.', async () => {
+    it("should fire the profileChange method with the updated profile.", async () => {
       // Arrange
       const target = await createTestTarget();
-      const expected = new ZProfileBuilder().display('Wolverine').email('wolverine@marvel.com').password('sucks-password').avatar(profile.avatar).confirm('sucks-password').build();
+      const expected = new ZProfileBuilder()
+        .display("Wolverine")
+        .email("wolverine@marvel.com")
+        .password("sucks-password")
+        .avatar(profile.avatar)
+        .confirm("sucks-password")
+        .build();
       // Act
       await act(async () => {
-        setField(target, 'ZProfileForm-input-display', expected.display);
-        setField(target, 'ZProfileForm-input-email', expected.email);
-        setField(target, 'ZProfileForm-input-password', expected.password);
-        setField(target, 'ZProfileForm-input-confirm', expected.confirm);
+        setField(target, "ZProfileForm-input-display", expected.display);
+        setField(target, "ZProfileForm-input-email", expected.email);
+        setField(target, "ZProfileForm-input-password", expected.password);
+        setField(target, "ZProfileForm-input-confirm", expected.confirm);
       });
       clickAction(target);
       // Assert
       expect(onProfileChange).toHaveBeenCalledWith(expected);
     });
 
-    it('should fire the profileChange method with a null display name if the display is empty.', async () => {
+    it("should fire the profileChange method with a null display name if the display is empty.", async () => {
       // Arrange
       const target = await createTestTarget();
       // Act
       await act(async () => {
-        setField(target, 'ZProfileForm-input-display', '');
+        setField(target, "ZProfileForm-input-display", "");
       });
       clickAction(target);
       // Assert
-      expect(onProfileChange).toHaveBeenCalledWith(expect.objectContaining({ display: null }));
+      expect(onProfileChange).toHaveBeenCalledWith(
+        expect.objectContaining({ display: null }),
+      );
     });
 
-    it('should fire the profileChange method without the password or confirm password fields if the password and confirm password fields are empty.', async () => {
+    it("should fire the profileChange method without the password or confirm password fields if the password and confirm password fields are empty.", async () => {
       // Arrange
       const target = await createTestTarget();
-      const expected = new ZProfileBuilder().password('not-very-secure').autoConfirm().build();
+      const expected = new ZProfileBuilder()
+        .password("not-very-secure")
+        .autoConfirm()
+        .build();
       // Act
       await act(async () => {
-        setField(target, 'ZProfileForm-input-password', expected.password);
-        setField(target, 'ZProfileForm-input-confirm', expected.confirm);
+        setField(target, "ZProfileForm-input-password", expected.password);
+        setField(target, "ZProfileForm-input-confirm", expected.confirm);
       });
       clickAction(target);
       // Assert
-      expect(onProfileChange).toHaveBeenCalledWith(expect.objectContaining({ password: expected.password, confirm: expected.confirm }));
+      expect(onProfileChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          password: expected.password,
+          confirm: expected.confirm,
+        }),
+      );
     });
 
-    it('should fire the profileChange method with the password and confirm fields set if the password is not empty.', async () => {
+    it("should fire the profileChange method with the password and confirm fields set if the password is not empty.", async () => {
       // Arrange
       const target = await createTestTarget();
-      const password = 'not-very-secure';
+      const password = "not-very-secure";
       // Act
       await act(async () => {
-        setField(target, 'ZProfileForm-input-password', password);
-        setField(target, 'ZProfileForm-input-confirm', '');
+        setField(target, "ZProfileForm-input-password", password);
+        setField(target, "ZProfileForm-input-confirm", "");
       });
       clickAction(target);
       // Assert
-      expect(onProfileChange).toHaveBeenCalledWith(expect.objectContaining({ password, confirm: '' }));
+      expect(onProfileChange).toHaveBeenCalledWith(
+        expect.objectContaining({ password, confirm: "" }),
+      );
     });
 
-    it('should fire the profileChange method with the password and confirm fields set if the confirm is not empty.', async () => {
+    it("should fire the profileChange method with the password and confirm fields set if the confirm is not empty.", async () => {
       // Arrange
       const target = await createTestTarget();
-      const password = 'not-very-secure';
+      const password = "not-very-secure";
       // Act
       await act(async () => {
-        setField(target, 'ZProfileForm-input-password', '');
-        setField(target, 'ZProfileForm-input-confirm', password);
+        setField(target, "ZProfileForm-input-password", "");
+        setField(target, "ZProfileForm-input-confirm", password);
       });
       clickAction(target);
       // Assert
-      expect(onProfileChange).toHaveBeenCalledWith(expect.objectContaining({ password: '', confirm: password }));
+      expect(onProfileChange).toHaveBeenCalledWith(
+        expect.objectContaining({ password: "", confirm: password }),
+      );
     });
 
-    it('should file the profileChange method with an empty email if the email has not changed.', async () => {
+    it("should file the profileChange method with an empty email if the email has not changed.", async () => {
       // Arrange
       const target = await createTestTarget();
       const expected = new ZProfileBuilder().display(profile.display).build();
       // Act
       await act(async () => {
-        setField(target, 'ZProfileForm-input-display', expected.display);
-        setField(target, 'ZProfileForm-input-email', profile.email);
+        setField(target, "ZProfileForm-input-display", expected.display);
+        setField(target, "ZProfileForm-input-email", profile.email);
       });
       clickAction(target);
       // Assert

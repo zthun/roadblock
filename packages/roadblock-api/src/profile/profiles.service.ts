@@ -1,7 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { IZEmail, IZLogin, IZProfile, IZUser, ZEmailBuilder, ZEmailEnvelopeBuilder, ZProfileBuilder } from '@zthun/works.core';
-import { ZNotificationsClient, ZUsersClient, ZVaultClient } from '@zthun/works.microservices';
-import { ZConfigEntries } from '@zthun/works.nest';
+import { Injectable } from "@nestjs/common";
+import type { IZEmail, IZLogin, IZProfile, IZUser } from "@zthun/works.core";
+import {
+  ZEmailBuilder,
+  ZEmailEnvelopeBuilder,
+  ZProfileBuilder,
+} from "@zthun/works.core";
+import type {
+  ZNotificationsClient,
+  ZUsersClient,
+  ZVaultClient,
+} from "@zthun/works.microservices";
+import { ZConfigEntries } from "@zthun/works.nest";
 
 @Injectable()
 /**
@@ -15,7 +24,11 @@ export class ZProfilesService {
    * @param _notifications The notifications client.
    * @param _vault The vault client.
    */
-  public constructor(private _users: ZUsersClient, private _notifications: ZNotificationsClient, private _vault: ZVaultClient) {}
+  public constructor(
+    private _users: ZUsersClient,
+    private _notifications: ZNotificationsClient,
+    private _vault: ZVaultClient,
+  ) {}
 
   /**
    * Creates a profile object from a login.
@@ -72,10 +85,19 @@ export class ZProfilesService {
    * @returns A promise that resolves the email sent.
    */
   public async sendActivationEmail(user: IZUser): Promise<IZEmail> {
-    const { value: server } = await this._vault.get(ZConfigEntries.notifications.smtp);
-    const { value: domain } = await this._vault.get(ZConfigEntries.common.domain);
-    const { value: notifier } = await this._vault.get(ZConfigEntries.notifications.notifier);
-    const envelope = new ZEmailEnvelopeBuilder().to(user.email).from(notifier).build();
+    const { value: server } = await this._vault.get(
+      ZConfigEntries.notifications.smtp,
+    );
+    const { value: domain } = await this._vault.get(
+      ZConfigEntries.common.domain,
+    );
+    const { value: notifier } = await this._vault.get(
+      ZConfigEntries.notifications.notifier,
+    );
+    const envelope = new ZEmailEnvelopeBuilder()
+      .to(user.email)
+      .from(notifier)
+      .build();
     const subject = `Welcome to ${domain}`;
     const msg = `<h1>Welcome to ${domain}</h1>
       <p>You must activate your account before you can do anything with your profile.  Your activation code is:</p>
@@ -83,7 +105,11 @@ export class ZProfilesService {
       <p>Your activation code is only good for a limited time.</p>
       <p>Thanks for joining ${domain}.  We hope you enjoy your stay.</p>
     `;
-    const email = new ZEmailBuilder().message(msg).subject(subject).envelope(envelope).build();
+    const email = new ZEmailBuilder()
+      .message(msg)
+      .subject(subject)
+      .envelope(envelope)
+      .build();
     await this._notifications.sendEmail(email, server);
     return email;
   }
@@ -153,11 +179,24 @@ export class ZProfilesService {
    * @param generated The generated password.
    * @param exp The expiration date.
    */
-  public async sendRecoveryEmail(address: string, generated: string, exp: number): Promise<IZEmail> {
-    const { value: server } = await this._vault.get(ZConfigEntries.notifications.smtp);
-    const { value: domain } = await this._vault.get(ZConfigEntries.common.domain);
-    const { value: notifier } = await this._vault.get(ZConfigEntries.notifications.notifier);
-    const envelope = new ZEmailEnvelopeBuilder().to(address).from(notifier).build();
+  public async sendRecoveryEmail(
+    address: string,
+    generated: string,
+    exp: number,
+  ): Promise<IZEmail> {
+    const { value: server } = await this._vault.get(
+      ZConfigEntries.notifications.smtp,
+    );
+    const { value: domain } = await this._vault.get(
+      ZConfigEntries.common.domain,
+    );
+    const { value: notifier } = await this._vault.get(
+      ZConfigEntries.notifications.notifier,
+    );
+    const envelope = new ZEmailEnvelopeBuilder()
+      .to(address)
+      .from(notifier)
+      .build();
     const date = new Date(exp).toLocaleString();
     const time = new Date().toLocaleString();
     const subject = `Password recovery for ${domain}`;
@@ -167,7 +206,11 @@ export class ZProfilesService {
       <p>This password is good until <strong>${date}</strong> and the current server time is ${time}.</p>
       <p>If you did not make this request, then it is recommended to log into the system and update your email/password as someone may be trying to access your account.</p>`;
 
-    const email = new ZEmailBuilder().message(msg).subject(subject).envelope(envelope).build();
+    const email = new ZEmailBuilder()
+      .message(msg)
+      .subject(subject)
+      .envelope(envelope)
+      .build();
     await this._notifications.sendEmail(email, server);
     return email;
   }

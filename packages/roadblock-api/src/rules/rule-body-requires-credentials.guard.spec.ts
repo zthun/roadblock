@@ -1,13 +1,16 @@
 /* eslint-disable require-jsdoc */
-import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { IZLogin, ZLoginBuilder } from '@zthun/works.core';
-import { createMocked } from '@zthun/works.jest';
-import { ZUsersClient } from '@zthun/works.microservices';
-import { Request } from 'express';
-import { ZRuleBodyRequiresCredentials } from './rule-body-requires-credentials.guard';
+import type { ExecutionContext } from "@nestjs/common";
+import { UnauthorizedException } from "@nestjs/common";
+import type { HttpArgumentsHost } from "@nestjs/common/interfaces";
+import type { IZLogin } from "@zthun/works.core";
+import { ZLoginBuilder } from "@zthun/works.core";
+import { createMocked } from "@zthun/works.jest";
+import type { ZUsersClient } from "@zthun/works.microservices";
+import type { Request } from "express";
 
-describe('ZRuleBodyRequiresCredentials', () => {
+import { ZRuleBodyRequiresCredentials } from "./rule-body-requires-credentials.guard";
+
+describe("ZRuleBodyRequiresCredentials", () => {
   let users: jest.Mocked<ZUsersClient>;
   let login: IZLogin;
   let req: jest.Mocked<Request>;
@@ -19,22 +22,26 @@ describe('ZRuleBodyRequiresCredentials', () => {
   }
 
   beforeEach(() => {
-    login = new ZLoginBuilder().email('gambit@marvel.com').password('weak').autoConfirm().build();
+    login = new ZLoginBuilder()
+      .email("gambit@marvel.com")
+      .password("weak")
+      .autoConfirm()
+      .build();
 
-    req = createMocked(['get']);
+    req = createMocked(["get"]);
     req.body = login;
 
-    host = createMocked(['getRequest']);
+    host = createMocked(["getRequest"]);
     host.getRequest.mockReturnValue(req);
 
-    context = createMocked(['switchToHttp']);
+    context = createMocked(["switchToHttp"]);
     context.switchToHttp.mockReturnValue(host);
 
-    users = createMocked(['compare']);
+    users = createMocked(["compare"]);
     users.compare.mockResolvedValue(true);
   });
 
-  it('return true if all rules pass.', async () => {
+  it("return true if all rules pass.", async () => {
     // Arrange
     const target = createTestTarget();
     // Act
@@ -43,7 +50,7 @@ describe('ZRuleBodyRequiresCredentials', () => {
     expect(actual).toBeTruthy();
   });
 
-  it('throws an Unauthorized exception if the credentials are incorrect.', async () => {
+  it("throws an Unauthorized exception if the credentials are incorrect.", async () => {
     // Arrange
     const target = createTestTarget();
     users.compare.mockResolvedValue(false);

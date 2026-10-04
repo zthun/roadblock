@@ -1,14 +1,15 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
+title: ""
+labels: ""
+assignees: ""
 ---
 
 ## Why do you want the feature
 
-A description of why you want a new feature implemented and what problem you need solved.
+A description of why you want a new feature implemented and what problem you
+need solved.
 
 ## Describe the solution you'd like
 

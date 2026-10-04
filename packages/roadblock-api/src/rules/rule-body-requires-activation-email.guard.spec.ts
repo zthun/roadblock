@@ -1,14 +1,17 @@
 /* eslint-disable require-jsdoc */
-import { ExecutionContext, ForbiddenException } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { IZProfileActivation, IZUser, ZProfileActivationBuilder, ZUserBuilder } from '@zthun/works.core';
-import { createMocked } from '@zthun/works.jest';
-import { ZSecurityService } from '@zthun/works.nest';
-import { Request } from 'express';
-import { v4 } from 'uuid';
-import { ZRuleBodyRequiresActivationEmail } from './rule-body-requires-activation-email.guard';
+import type { ExecutionContext } from "@nestjs/common";
+import { ForbiddenException } from "@nestjs/common";
+import type { HttpArgumentsHost } from "@nestjs/common/interfaces";
+import type { IZProfileActivation, IZUser } from "@zthun/works.core";
+import { ZProfileActivationBuilder, ZUserBuilder } from "@zthun/works.core";
+import { createMocked } from "@zthun/works.jest";
+import type { ZSecurityService } from "@zthun/works.nest";
+import type { Request } from "express";
+import { v4 } from "uuid";
 
-describe('ZRuleBodyRequiresActivationEmail', () => {
+import { ZRuleBodyRequiresActivationEmail } from "./rule-body-requires-activation-email.guard";
+
+describe("ZRuleBodyRequiresActivationEmail", () => {
   let security: jest.Mocked<ZSecurityService>;
   let user: IZUser;
   let activation: IZProfileActivation;
@@ -21,23 +24,30 @@ describe('ZRuleBodyRequiresActivationEmail', () => {
   }
 
   beforeEach(() => {
-    user = new ZUserBuilder().email('gambit@marvel.com').inactive(v4()).password('not-secure').build();
-    activation = new ZProfileActivationBuilder().email(user.email).key(user.activator.key).build();
+    user = new ZUserBuilder()
+      .email("gambit@marvel.com")
+      .inactive(v4())
+      .password("not-secure")
+      .build();
+    activation = new ZProfileActivationBuilder()
+      .email(user.email)
+      .key(user.activator.key)
+      .build();
 
-    req = createMocked(['get']);
+    req = createMocked(["get"]);
     req.body = activation;
 
-    host = createMocked(['getRequest']);
+    host = createMocked(["getRequest"]);
     host.getRequest.mockReturnValue(req);
 
-    context = createMocked(['switchToHttp']);
+    context = createMocked(["switchToHttp"]);
     context.switchToHttp.mockReturnValue(host);
 
-    security = createMocked(['extract']);
+    security = createMocked(["extract"]);
     security.extract.mockResolvedValue(Promise.resolve(user));
   });
 
-  it('return true if all rules pass.', async () => {
+  it("return true if all rules pass.", async () => {
     // Arrange
     const target = createTestTarget();
     // Act
@@ -46,10 +56,13 @@ describe('ZRuleBodyRequiresActivationEmail', () => {
     expect(actual).toBeTruthy();
   });
 
-  it('throws a Forbidden exception of the activation email does not match the logged in email.', async () => {
+  it("throws a Forbidden exception of the activation email does not match the logged in email.", async () => {
     // Arrange
     const target = createTestTarget();
-    user = new ZUserBuilder().copy(user).email('other-person@gmail.com').build();
+    user = new ZUserBuilder()
+      .copy(user)
+      .email("other-person@gmail.com")
+      .build();
     security.extract.mockResolvedValue(Promise.resolve(user));
     // Act
     const actual = target.canActivate(context);

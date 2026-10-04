@@ -1,7 +1,12 @@
-import { IZLogin, IZProfile, IZProfileActivation } from '@zthun/works.core';
-import { IZHttpService, ZHttpRequestBuilder, ZHttpService } from '@zthun/works.http';
-import { ZUrlBuilder } from '@zthun/works.url';
-import { createContext, useContext } from 'react';
+import type {
+  IZLogin,
+  IZProfile,
+  IZProfileActivation,
+} from "@zthun/works.core";
+import type { IZHttpService } from "@zthun/works.http";
+import { ZHttpRequestBuilder, ZHttpService } from "@zthun/works.http";
+import { ZUrlBuilder } from "@zthun/works.url";
+import { createContext, useContext } from "react";
 
 /**
  * Represents a service to retrieve information about profiles in the zthunworks system.
@@ -101,7 +106,7 @@ export class ZProfileService implements IZProfileService {
    * @returns The url for the standard profiles rest api.
    */
   public static createProfilesUrl() {
-    return new ZUrlBuilder().api().append('profiles').build();
+    return new ZUrlBuilder().api().append("profiles").build();
   }
 
   /**
@@ -110,7 +115,7 @@ export class ZProfileService implements IZProfileService {
    * @returns The url for the tokens rest api.
    */
   public static createTokensUrl(): string {
-    return new ZUrlBuilder().api().append('tokens').build();
+    return new ZUrlBuilder().api().append("tokens").build();
   }
 
   /**
@@ -119,7 +124,11 @@ export class ZProfileService implements IZProfileService {
    * @returns The url for the profile recovery api.
    */
   public static createRecoveryUrl(): string {
-    return new ZUrlBuilder().api().append('profiles').append('recoveries').build();
+    return new ZUrlBuilder()
+      .api()
+      .append("profiles")
+      .append("recoveries")
+      .build();
   }
 
   /**
@@ -128,7 +137,11 @@ export class ZProfileService implements IZProfileService {
    * @returns The url for the activation rest api.
    */
   public static createActivationsUrl(): string {
-    return new ZUrlBuilder().api().append('profiles').append('activations').build();
+    return new ZUrlBuilder()
+      .api()
+      .append("profiles")
+      .append("activations")
+      .build();
   }
 
   /**
@@ -147,7 +160,10 @@ export class ZProfileService implements IZProfileService {
    *          or a promise that rejects with an error.
    */
   public async create(credentials: IZLogin): Promise<IZProfile> {
-    const req = new ZHttpRequestBuilder().post(credentials).url(ZProfileService.createProfilesUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .post(credentials)
+      .url(ZProfileService.createProfilesUrl())
+      .build();
     const res = await this._http.request(req);
     return res.data;
   }
@@ -159,7 +175,10 @@ export class ZProfileService implements IZProfileService {
    *          if the user is not logged in.
    */
   public async read(): Promise<IZProfile> {
-    const req = new ZHttpRequestBuilder().get().url(ZProfileService.createProfilesUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .get()
+      .url(ZProfileService.createProfilesUrl())
+      .build();
     const response = await this._http.request(req);
     return response.data;
   }
@@ -172,7 +191,10 @@ export class ZProfileService implements IZProfileService {
    * @returns The updated profile.
    */
   public async update(profile: Partial<IZProfile>): Promise<IZProfile> {
-    const req = new ZHttpRequestBuilder().put(profile).url(ZProfileService.createProfilesUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .put(profile)
+      .url(ZProfileService.createProfilesUrl())
+      .build();
     const result = await this._http.request<IZProfile>(req);
     return result.data;
   }
@@ -181,7 +203,10 @@ export class ZProfileService implements IZProfileService {
    * Deletes the current users profile.
    */
   public async delete(): Promise<void> {
-    const req = new ZHttpRequestBuilder().delete().url(ZProfileService.createProfilesUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .delete()
+      .url(ZProfileService.createProfilesUrl())
+      .build();
     await this._http.request(req);
   }
 
@@ -194,7 +219,10 @@ export class ZProfileService implements IZProfileService {
    *          if the credentials are invalid.
    */
   public async login(credentials: IZLogin): Promise<IZProfile> {
-    const req = new ZHttpRequestBuilder().post(credentials).url(ZProfileService.createTokensUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .post(credentials)
+      .url(ZProfileService.createTokensUrl())
+      .build();
     await this._http.request(req);
     return this.read();
   }
@@ -206,7 +234,10 @@ export class ZProfileService implements IZProfileService {
    *          if the endpoint cannot be reached.
    */
   public async logout(): Promise<void> {
-    const req = new ZHttpRequestBuilder().delete().url(ZProfileService.createTokensUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .delete()
+      .url(ZProfileService.createTokensUrl())
+      .build();
     await this._http.request(req);
   }
 
@@ -219,7 +250,10 @@ export class ZProfileService implements IZProfileService {
    *          promise if the operation failed.
    */
   public async recover(credentials: IZLogin): Promise<void> {
-    const req = new ZHttpRequestBuilder().post(credentials).url(ZProfileService.createRecoveryUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .post(credentials)
+      .url(ZProfileService.createRecoveryUrl())
+      .build();
     await this._http.request(req);
   }
 
@@ -231,7 +265,10 @@ export class ZProfileService implements IZProfileService {
    * @returns A promise that returns the updated profile.
    */
   public async activate(activation: IZProfileActivation): Promise<IZProfile> {
-    const req = new ZHttpRequestBuilder().put(activation).url(ZProfileService.createActivationsUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .put(activation)
+      .url(ZProfileService.createActivationsUrl())
+      .build();
     const actual = await this._http.request(req);
     return actual.data;
   }
@@ -242,7 +279,10 @@ export class ZProfileService implements IZProfileService {
    * @returns A promise that returns the updated profile.
    */
   public async deactivate(): Promise<IZProfile> {
-    const req = new ZHttpRequestBuilder().delete().url(ZProfileService.createActivationsUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .delete()
+      .url(ZProfileService.createActivationsUrl())
+      .build();
     const actual = await this._http.request(req);
     return actual.data;
   }
@@ -258,7 +298,10 @@ export class ZProfileService implements IZProfileService {
    * @returns A promise that returns the updated profile.
    */
   public async reactivate(activation: IZProfileActivation): Promise<IZProfile> {
-    const req = new ZHttpRequestBuilder().post(activation).url(ZProfileService.createActivationsUrl()).build();
+    const req = new ZHttpRequestBuilder()
+      .post(activation)
+      .url(ZProfileService.createActivationsUrl())
+      .build();
     const actual = await this._http.request(req);
     return actual.data;
   }
@@ -267,7 +310,9 @@ export class ZProfileService implements IZProfileService {
 /**
  * The context provider that holds the profile service.
  */
-export const ZProfileServiceContext = createContext<IZProfileService>(new ZProfileService(new ZHttpService()));
+export const ZProfileServiceContext = createContext<IZProfileService>(
+  new ZProfileService(new ZHttpService()),
+);
 
 /**
  * Returns the context profile service.

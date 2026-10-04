@@ -1,13 +1,18 @@
 /* eslint-disable require-jsdoc */
-import { ConflictException } from '@nestjs/common';
-import { ExecutionContext, HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { IZLogin, ZLoginBuilder, ZUserBuilder } from '@zthun/works.core';
-import { createMocked } from '@zthun/works.jest';
-import { ZUsersClient } from '@zthun/works.microservices';
-import { Request } from 'express';
-import { ZRuleBodyRequiresUniqueUser } from './rule-body-requires-unique-user.guard';
+import { ConflictException } from "@nestjs/common";
+import type {
+  ExecutionContext,
+  HttpArgumentsHost,
+} from "@nestjs/common/interfaces";
+import type { IZLogin } from "@zthun/works.core";
+import { ZLoginBuilder, ZUserBuilder } from "@zthun/works.core";
+import { createMocked } from "@zthun/works.jest";
+import type { ZUsersClient } from "@zthun/works.microservices";
+import type { Request } from "express";
 
-describe('ZRuleBodyRequiresUniqueUser', () => {
+import { ZRuleBodyRequiresUniqueUser } from "./rule-body-requires-unique-user.guard";
+
+describe("ZRuleBodyRequiresUniqueUser", () => {
   let users: jest.Mocked<ZUsersClient>;
   let login: IZLogin;
   let req: jest.Mocked<Request>;
@@ -19,22 +24,26 @@ describe('ZRuleBodyRequiresUniqueUser', () => {
   }
 
   beforeEach(() => {
-    login = new ZLoginBuilder().email('gambit@marvel.com').password('weak').autoConfirm().build();
+    login = new ZLoginBuilder()
+      .email("gambit@marvel.com")
+      .password("weak")
+      .autoConfirm()
+      .build();
 
-    req = createMocked(['get']);
+    req = createMocked(["get"]);
     req.body = login;
 
-    host = createMocked(['getRequest']);
+    host = createMocked(["getRequest"]);
     host.getRequest.mockReturnValue(req);
 
-    context = createMocked(['switchToHttp']);
+    context = createMocked(["switchToHttp"]);
     context.switchToHttp.mockReturnValue(host);
 
-    users = createMocked(['findByEmail']);
+    users = createMocked(["findByEmail"]);
     users.findByEmail.mockResolvedValue(null);
   });
 
-  it('return true if all rules pass.', async () => {
+  it("return true if all rules pass.", async () => {
     // Arrange
     const target = createTestTarget();
     // Act
@@ -43,7 +52,7 @@ describe('ZRuleBodyRequiresUniqueUser', () => {
     expect(actual).toBeTruthy();
   });
 
-  it('throws a ConflictException if the user is not unique.', async () => {
+  it("throws a ConflictException if the user is not unique.", async () => {
     // Arrange
     const target = createTestTarget();
     users.findByEmail.mockResolvedValue(new ZUserBuilder().build());

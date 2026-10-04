@@ -1,17 +1,26 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
-import { Grid, Typography } from '@mui/material';
-import { IZProfile, IZProfileActivation, ZProfileActivationBuilder } from '@zthun/works.core';
-import { ZAlertBuilder } from '@zthun/works.message';
-import { useAlertService, useErrorHandler, useIdentityAndWatch, useSafeState, ZCircularProgress, ZPaperCard } from '@zthun/works.react';
-import { get } from 'lodash';
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { ZProfileActivationForm } from './profile-activation-form';
-import { ZProfileForm } from './profile-form';
-import { useProfileService } from './profile-service.context';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
+import { Grid, Typography } from "@mui/material";
+import type { IZProfile, IZProfileActivation } from "@zthun/works.core";
+import { ZProfileActivationBuilder } from "@zthun/works.core";
+import { ZAlertBuilder } from "@zthun/works.message";
+import {
+  useAlertService,
+  useErrorHandler,
+  useIdentityAndWatch,
+  useSafeState,
+  ZCircularProgress,
+  ZPaperCard,
+} from "@zthun/works.react";
+import { get } from "lodash";
+import React from "react";
+import { Redirect } from "react-router-dom";
+
+import { ZProfileActivationForm } from "./profile-activation-form";
+import { ZProfileForm } from "./profile-form";
+import { useProfileService } from "./profile-service.context";
 
 /**
  * Renders the profile page.
@@ -29,8 +38,18 @@ export function ZProfilePage() {
   const [reactivating, setReactivating] = useSafeState(false);
   const [updatingProfile, setUpdatingProfile] = useSafeState(false);
   const [deleting, setDeleting] = useSafeState(false);
-  const [activation, setActivation] = useSafeState(new ZProfileActivationBuilder().email(get(profile.data, 'email', null)).build());
-  const waiting = deleting || deactivating || updatingProfile || activating || reactivating || loggingOut;
+  const [activation, setActivation] = useSafeState(
+    new ZProfileActivationBuilder()
+      .email(get(profile.data, "email", null))
+      .build(),
+  );
+  const waiting =
+    deleting ||
+    deactivating ||
+    updatingProfile ||
+    activating ||
+    reactivating ||
+    loggingOut;
 
   /**
    * Occurs when the user clicks the logout button.
@@ -39,7 +58,9 @@ export function ZProfilePage() {
     try {
       setLoggingOut(true);
       await profileSvc.logout();
-      alerts.create(new ZAlertBuilder().success().message('Logout successful.').build());
+      alerts.create(
+        new ZAlertBuilder().success().message("Logout successful.").build(),
+      );
       setLoggingOut(false);
       profile.set(null);
     } catch (err) {
@@ -60,7 +81,9 @@ export function ZProfilePage() {
       setActivation(value);
       setActivating(true);
       const update = await profileSvc.activate(value);
-      alerts.create(new ZAlertBuilder().success().message('Account activated.').build());
+      alerts.create(
+        new ZAlertBuilder().success().message("Account activated.").build(),
+      );
       setActivating(false);
       profile.set(update);
     } catch (err) {
@@ -79,10 +102,17 @@ export function ZProfilePage() {
   async function handleReactivation() {
     try {
       setReactivating(true);
-      const body = new ZProfileActivationBuilder().email(profile.data.email).build();
+      const body = new ZProfileActivationBuilder()
+        .email(profile.data.email)
+        .build();
       setActivation(body);
       const update = await profileSvc.reactivate(body);
-      alerts.create(new ZAlertBuilder().success().message('Activation code sent. Please check your email.').build());
+      alerts.create(
+        new ZAlertBuilder()
+          .success()
+          .message("Activation code sent. Please check your email.")
+          .build(),
+      );
       setReactivating(false);
       profile.set(update);
     } catch (err) {
@@ -97,10 +127,19 @@ export function ZProfilePage() {
   async function handleDeactivation() {
     try {
       setDeactivating(true);
-      const body = new ZProfileActivationBuilder().email(profile.data.email).build();
+      const body = new ZProfileActivationBuilder()
+        .email(profile.data.email)
+        .build();
       setActivation(body);
       const update = await profileSvc.deactivate();
-      alerts.create(new ZAlertBuilder().success().message('Account deactivated. Send yourself another activation code to reactivate.').build());
+      alerts.create(
+        new ZAlertBuilder()
+          .success()
+          .message(
+            "Account deactivated. Send yourself another activation code to reactivate.",
+          )
+          .build(),
+      );
       profile.set(update);
     } catch (err) {
       errors.handle(err);
@@ -118,7 +157,9 @@ export function ZProfilePage() {
       setDeleting(true);
       setActivation(null);
       await profileSvc.delete();
-      alerts.create(new ZAlertBuilder().success().message('Account deleted').build());
+      alerts.create(
+        new ZAlertBuilder().success().message("Account deleted").build(),
+      );
       setDeleting(false);
       profile.set(null);
     } catch (err) {
@@ -135,9 +176,13 @@ export function ZProfilePage() {
   async function handleUpdateProfile(changes: IZProfile) {
     try {
       setUpdatingProfile(true);
-      setActivation(new ZProfileActivationBuilder().email(profile.data.email).build());
+      setActivation(
+        new ZProfileActivationBuilder().email(profile.data.email).build(),
+      );
       const updated = await profileSvc.update(changes);
-      alerts.create(new ZAlertBuilder().success().message('Account updated').build());
+      alerts.create(
+        new ZAlertBuilder().success().message("Account updated").build(),
+      );
       setUpdatingProfile(false);
       profile.set(updated);
     } catch (err) {
@@ -154,7 +199,11 @@ export function ZProfilePage() {
   function createProfileLoading() {
     return (
       <Grid item>
-        <ZCircularProgress className='ZProfilePage-progress-profile-loading' data-testid='ZProfilePage-progress-profile-loading' size='xl' />
+        <ZCircularProgress
+          className="ZProfilePage-progress-profile-loading"
+          data-testid="ZProfilePage-progress-profile-loading"
+          size="xl"
+        />
       </Grid>
     );
   }
@@ -165,7 +214,14 @@ export function ZProfilePage() {
    * @returns The jsx that renders the core profile form.
    */
   function createProfileForm() {
-    return <ZProfileForm disabled={waiting} loading={updatingProfile} profile={profile.data} onProfileChange={handleUpdateProfile} />;
+    return (
+      <ZProfileForm
+        disabled={waiting}
+        loading={updatingProfile}
+        profile={profile.data}
+        onProfileChange={handleUpdateProfile}
+      />
+    );
   }
 
   /**
@@ -176,18 +232,19 @@ export function ZProfilePage() {
   function createProfileDeactivateForm() {
     return (
       <ZPaperCard
-        headerText='Deactivate Account'
-        subHeaderText='Turn off account access'
-        avatar={<PauseCircleOutlineIcon fontSize='large' />}
+        headerText="Deactivate Account"
+        subHeaderText="Turn off account access"
+        avatar={<PauseCircleOutlineIcon fontSize="large" />}
         loading={deactivating}
         disabled={waiting}
-        size='md'
-        actionText='Deactivate'
-        actionColor='secondary'
+        size="md"
+        actionText="Deactivate"
+        actionColor="secondary"
         onAction={handleDeactivation}
       >
-        <Typography variant='body1' component='p'>
-          This will deactivate your account. If you wish to reactivate your account, you will need to send yourself another activation key.{' '}
+        <Typography variant="body1" component="p">
+          This will deactivate your account. If you wish to reactivate your
+          account, you will need to send yourself another activation key.{" "}
         </Typography>
       </ZPaperCard>
     );
@@ -201,19 +258,20 @@ export function ZProfilePage() {
   function createProfileDeleteForm() {
     return (
       <ZPaperCard
-        headerText='Delete Account'
-        subHeaderText='Remove your account'
-        avatar={<DeleteOutlineIcon fontSize='large' />}
+        headerText="Delete Account"
+        subHeaderText="Remove your account"
+        avatar={<DeleteOutlineIcon fontSize="large" />}
         loading={deleting}
         disabled={waiting}
-        size='md'
-        confirmation='I understand that this action is not reversible.'
-        actionText='Delete'
-        actionColor='secondary'
+        size="md"
+        confirmation="I understand that this action is not reversible."
+        actionText="Delete"
+        actionColor="secondary"
         onAction={handleDelete}
       >
-        <Typography variant='body1' component='p'>
-          This will completely delete your account and all preferences associated with it.
+        <Typography variant="body1" component="p">
+          This will completely delete your account and all preferences
+          associated with it.
         </Typography>
       </ZPaperCard>
     );
@@ -225,7 +283,14 @@ export function ZProfilePage() {
    * @returns The jsx that renders the activation form card.
    */
   function createProfileActivationForm() {
-    return <ZProfileActivationForm activation={activation} onActivationChange={handleActivation} disabled={waiting} loading={activating} />;
+    return (
+      <ZProfileActivationForm
+        activation={activation}
+        onActivationChange={handleActivation}
+        disabled={waiting}
+        loading={activating}
+      />
+    );
   }
 
   /**
@@ -236,18 +301,19 @@ export function ZProfilePage() {
   function createProfileReactivationForm() {
     return (
       <ZPaperCard
-        avatar={<MailOutlineIcon fontSize='large' />}
-        headerText='Resend Activation Code'
-        subHeaderText='Get another code'
-        actionText='Send'
+        avatar={<MailOutlineIcon fontSize="large" />}
+        headerText="Resend Activation Code"
+        subHeaderText="Get another code"
+        actionText="Send"
         onAction={handleReactivation}
-        actionColor='secondary'
-        size='md'
+        actionColor="secondary"
+        size="md"
         disabled={waiting}
         loading={reactivating}
       >
-        <Typography variant='body1' component='p'>
-          If you disabled your account, lost your activation key, or your activation key has expired, you can request a new one here.
+        <Typography variant="body1" component="p">
+          If you disabled your account, lost your activation key, or your
+          activation key has expired, you can request a new one here.
         </Typography>
       </ZPaperCard>
     );
@@ -260,9 +326,21 @@ export function ZProfilePage() {
    */
   function createProfileLogoutForm() {
     return (
-      <ZPaperCard avatar={<ExitToAppIcon fontSize='large' />} headerText='End Session' subHeaderText='End current session on this device' actionText='Logout' onAction={handleLogout} actionColor='secondary' size='md' disabled={waiting} loading={loggingOut}>
-        <Typography variant='body1' component='p'>
-          This will end your current session and log you out. If you are logged in on other devices, then you will need to click this button on those devices there too.
+      <ZPaperCard
+        avatar={<ExitToAppIcon fontSize="large" />}
+        headerText="End Session"
+        subHeaderText="End current session on this device"
+        actionText="Logout"
+        onAction={handleLogout}
+        actionColor="secondary"
+        size="md"
+        disabled={waiting}
+        loading={loggingOut}
+      >
+        <Typography variant="body1" component="p">
+          This will end your current session and log you out. If you are logged
+          in on other devices, then you will need to click this button on those
+          devices there too.
         </Typography>
       </ZPaperCard>
     );
@@ -278,7 +356,7 @@ export function ZProfilePage() {
       <React.Fragment>
         <Grid item>{createProfileForm()}</Grid>
         <Grid item>
-          <Grid container spacing={3} direction='column'>
+          <Grid container spacing={3} direction="column">
             <Grid item>{createProfileLogoutForm()}</Grid>
             <Grid item>{createProfileDeactivateForm()}</Grid>
             <Grid item>{createProfileDeleteForm()}</Grid>
@@ -298,7 +376,7 @@ export function ZProfilePage() {
       <React.Fragment>
         <Grid item>{createProfileForm()}</Grid>
         <Grid item>
-          <Grid container spacing={3} direction='column'>
+          <Grid container spacing={3} direction="column">
             <Grid item>{createProfileLogoutForm()}</Grid>
             <Grid item>{createProfileActivationForm()}</Grid>
             <Grid item>{createProfileReactivationForm()}</Grid>
@@ -314,7 +392,9 @@ export function ZProfilePage() {
    * @returns The jsx that represents the current profile state.
    */
   function createProfileFromSession() {
-    return profile.data.active ? createProfileActivatedSession() : createProfileDeactivatedSession();
+    return profile.data.active
+      ? createProfileActivatedSession()
+      : createProfileDeactivatedSession();
   }
 
   /**
@@ -323,7 +403,7 @@ export function ZProfilePage() {
    * @returns The jsx that redirects to the login page.
    */
   function createProfileRedirect() {
-    return <Redirect to='/login' />;
+    return <Redirect to="/login" />;
   }
 
   /**
@@ -344,7 +424,13 @@ export function ZProfilePage() {
   }
 
   return (
-    <Grid container className='ZProfilePage-root' data-testid='ZProfilePage-root' spacing={3} justifyContent='center'>
+    <Grid
+      container
+      className="ZProfilePage-root"
+      data-testid="ZProfilePage-root"
+      spacing={3}
+      justifyContent="center"
+    >
       {createContentFromProfile()}
     </Grid>
   );

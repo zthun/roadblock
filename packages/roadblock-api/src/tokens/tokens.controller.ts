@@ -1,11 +1,20 @@
-import { Body, Controller, Delete, Get, Post, Res, UseGuards } from '@nestjs/common';
-import { ZRuleCookieRequiresAuthAny } from '@zthun/works.nest';
-import { Response } from 'express';
-import { ZRuleBodyRequiresCredentials } from '../rules/rule-body-requires-credentials.guard';
-import { ZTokensLoginDto } from './tokens-login.dto';
-import { ZTokensService } from './tokens.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
+import { ZRuleCookieRequiresAuthAny } from "@zthun/works.nest";
+import type { Response } from "express";
 
-@Controller('tokens')
+import { ZRuleBodyRequiresCredentials } from "../rules/rule-body-requires-credentials.guard";
+import type { ZTokensService } from "./tokens.service";
+import type { ZTokensLoginDto } from "./tokens-login.dto";
+
+@Controller("tokens")
 /**
  * The controller for logging the user in and out.
  */
@@ -42,7 +51,10 @@ export class ZTokensController {
    */
   @Post()
   @UseGuards(ZRuleBodyRequiresCredentials)
-  public async login(@Res() res: Response, @Body() credentials: ZTokensLoginDto) {
+  public async login(
+    @Res() res: Response,
+    @Body() credentials: ZTokensLoginDto,
+  ) {
     await this._tokens.inject(res, credentials);
     res.sendStatus(204);
   }

@@ -1,13 +1,21 @@
-import { Box, TextField } from '@mui/material';
-import { IZLogin, ZLoginBuilder } from '@zthun/works.core';
-import { IZComponentDisabled, IZComponentHeader, IZComponentLoading, makeStyles, ZPaperCard } from '@zthun/works.react';
-import { get, noop } from 'lodash';
-import React, { FormEvent, useState } from 'react';
+import { Box, TextField } from "@mui/material";
+import type { IZLogin } from "@zthun/works.core";
+import { ZLoginBuilder } from "@zthun/works.core";
+import type {
+  IZComponentDisabled,
+  IZComponentHeader,
+  IZComponentLoading,
+} from "@zthun/works.react";
+import { makeStyles, ZPaperCard } from "@zthun/works.react";
+import { get, noop } from "lodash";
+import type { FormEvent } from "react";
+import React, { useState } from "react";
 
 /**
  * Represents properties for the ZLoginCredentialsForm.
  */
-export interface IZLoginCredentialsFormProps extends IZComponentLoading, IZComponentDisabled, Partial<IZComponentHeader> {
+export interface IZLoginCredentialsFormProps
+  extends IZComponentLoading, IZComponentDisabled, Partial<IZComponentHeader> {
   /**
    * The text for the action button.
    *
@@ -100,13 +108,13 @@ export interface IZLoginCredentialsFormProps extends IZComponentLoading, IZCompo
 
 const useLoginCredentialsFormStyles = makeStyles()((theme) => ({
   root: {
-    'minWidth': theme.sizing.card.sm,
-    'maxWidth': theme.sizing.card.md,
+    minWidth: theme.sizing.card.sm,
+    maxWidth: theme.sizing.card.md,
 
-    '& .MuiTextField-root': {
-      marginBottom: theme.sizing.gaps.md
-    }
-  }
+    "& .MuiTextField-root": {
+      marginBottom: theme.sizing.gaps.md,
+    },
+  },
 }));
 
 /**
@@ -118,9 +126,9 @@ const useLoginCredentialsFormStyles = makeStyles()((theme) => ({
  */
 export function ZLoginCredentialsForm(props: IZLoginCredentialsFormProps) {
   const {
-    headerText = 'Create Account',
-    subHeaderText = 'Enter account credentials',
-    actionText = 'Create',
+    headerText = "Create Account",
+    subHeaderText = "Enter account credentials",
+    actionText = "Create",
     loading = false,
     disabled = false,
     avatar = null,
@@ -129,17 +137,17 @@ export function ZLoginCredentialsForm(props: IZLoginCredentialsFormProps) {
     hidePassword = false,
     hideConfirm = false,
 
-    nameEmail = 'username',
-    namePassword = 'password',
-    nameConfirm = 'confirm',
+    nameEmail = "username",
+    namePassword = "password",
+    nameConfirm = "confirm",
 
     credentials = null,
-    onCredentialsChange = noop
+    onCredentialsChange = noop,
   } = props;
 
-  const [email, setEmail] = useState(get(credentials, 'email', ''));
-  const [password, setPassword] = useState(get(credentials, 'password', ''));
-  const [confirm, setConfirm] = useState(get(credentials, 'confirm', ''));
+  const [email, setEmail] = useState(get(credentials, "email", ""));
+  const [password, setPassword] = useState(get(credentials, "password", ""));
+  const [confirm, setConfirm] = useState(get(credentials, "confirm", ""));
   const styles = useLoginCredentialsFormStyles();
 
   /**
@@ -189,16 +197,16 @@ export function ZLoginCredentialsForm(props: IZLoginCredentialsFormProps) {
 
   const emailTextField = hideEmail ? null : (
     <TextField
-      className='ZLoginCredentialsForm-input ZLoginCredentialsForm-input-email'
-      data-testid='ZLoginCredentialsForm-input-email'
+      className="ZLoginCredentialsForm-input ZLoginCredentialsForm-input-email"
+      data-testid="ZLoginCredentialsForm-input-email"
       fullWidth={true}
       required={true}
-      label='Email'
-      type='email'
+      label="Email"
+      type="email"
       name={nameEmail}
       autoComplete={nameEmail}
-      margin='none'
-      variant='outlined'
+      margin="none"
+      variant="outlined"
       autoFocus={true}
       value={email}
       disabled={disabled}
@@ -209,16 +217,16 @@ export function ZLoginCredentialsForm(props: IZLoginCredentialsFormProps) {
 
   const passwordTextField = hidePassword ? null : (
     <TextField
-      className='ZLoginCredentialsForm-input ZLoginCredentialsForm-input-password'
-      data-testid='ZLoginCredentialsForm-input-password'
+      className="ZLoginCredentialsForm-input ZLoginCredentialsForm-input-password"
+      data-testid="ZLoginCredentialsForm-input-password"
       fullWidth={true}
       required={true}
-      label='Password'
+      label="Password"
       name={namePassword}
       autoComplete={namePassword}
-      type='password'
-      margin='none'
-      variant='outlined'
+      type="password"
+      margin="none"
+      variant="outlined"
       value={password}
       disabled={disabled}
       onInput={handlePasswordChange}
@@ -229,16 +237,16 @@ export function ZLoginCredentialsForm(props: IZLoginCredentialsFormProps) {
   const confirmTextField =
     hidePassword || hideConfirm ? null : (
       <TextField
-        className='ZLoginCredentialsForm-input ZLoginCredentialsForm-input-confirm'
-        data-testid='ZLoginCredentialsForm-input-confirm'
+        className="ZLoginCredentialsForm-input ZLoginCredentialsForm-input-confirm"
+        data-testid="ZLoginCredentialsForm-input-confirm"
         fullWidth={true}
         required={true}
-        label='Confirm password'
-        type='password'
+        label="Confirm password"
+        type="password"
         name={nameConfirm}
         autoComplete={namePassword}
-        margin='none'
-        variant='outlined'
+        margin="none"
+        variant="outlined"
         value={confirm}
         disabled={disabled}
         onInput={handleConfirmChange}
@@ -247,8 +255,22 @@ export function ZLoginCredentialsForm(props: IZLoginCredentialsFormProps) {
     );
 
   return (
-    <Box className={`ZLoginCredentialsForm-root ${styles.classes.root}`} data-testid='ZLoginCredentialsForm-root' component='form' noValidate={true} onSubmit={handleAction}>
-      <ZPaperCard disabled={disabled} loading={loading} headerText={headerText} subHeaderText={subHeaderText} actionText={actionText} actionType='submit' avatar={avatar}>
+    <Box
+      className={`ZLoginCredentialsForm-root ${styles.classes.root}`}
+      data-testid="ZLoginCredentialsForm-root"
+      component="form"
+      noValidate={true}
+      onSubmit={handleAction}
+    >
+      <ZPaperCard
+        disabled={disabled}
+        loading={loading}
+        headerText={headerText}
+        subHeaderText={subHeaderText}
+        actionText={actionText}
+        actionType="submit"
+        avatar={avatar}
+      >
         {emailTextField}
         {passwordTextField}
         {confirmTextField}

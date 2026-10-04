@@ -1,6 +1,8 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { IZLogin, ZAssert, ZLoginBuilder } from '@zthun/works.core';
-import { ZUsersClient } from '@zthun/works.microservices';
+import type { CanActivate, ExecutionContext } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import type { IZLogin } from "@zthun/works.core";
+import { ZAssert, ZLoginBuilder } from "@zthun/works.core";
+import type { ZUsersClient } from "@zthun/works.microservices";
 
 @Injectable()
 /**
@@ -24,8 +26,13 @@ export class ZRuleBodyRequiresCredentials implements CanActivate {
    */
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const login = context.switchToHttp().getRequest().body as IZLogin;
-    const valid = await this._users.compare(new ZLoginBuilder().copy(login).build());
-    ZAssert.claim(valid, 'Your credentials are incorrect.  Please try again.').assert((msg) => new UnauthorizedException(msg));
+    const valid = await this._users.compare(
+      new ZLoginBuilder().copy(login).build(),
+    );
+    ZAssert.claim(
+      valid,
+      "Your credentials are incorrect.  Please try again.",
+    ).assert((msg) => new UnauthorizedException(msg));
     // The user has logged in at this point.
     return true;
   }

@@ -1,6 +1,7 @@
-import { CanActivate, ConflictException, ExecutionContext, Injectable } from '@nestjs/common';
-import { ZAssert } from '@zthun/works.core';
-import { ZUsersClient } from '@zthun/works.microservices';
+import type { CanActivate, ExecutionContext } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
+import { ZAssert } from "@zthun/works.core";
+import type { ZUsersClient } from "@zthun/works.microservices";
 
 @Injectable()
 /**
@@ -25,7 +26,9 @@ export class ZRuleBodyRequiresUniqueUser implements CanActivate {
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const { email } = context.switchToHttp().getRequest().body;
     const user = await this._users.findByEmail(email);
-    ZAssert.claim(!user, `Email, ${email}, is not available.`).assert((msg) => new ConflictException(msg));
+    ZAssert.claim(!user, `Email, ${email}, is not available.`).assert(
+      (msg) => new ConflictException(msg),
+    );
     return true;
   }
 }

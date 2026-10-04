@@ -1,7 +1,9 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { IZProfileActivation, ZAssert } from '@zthun/works.core';
-import { ZSecurityService } from '@zthun/works.nest';
-import { Request } from 'express';
+import type { CanActivate, ExecutionContext } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
+import type { IZProfileActivation } from "@zthun/works.core";
+import { ZAssert } from "@zthun/works.core";
+import type { ZSecurityService } from "@zthun/works.nest";
+import type { Request } from "express";
 
 @Injectable()
 /**
@@ -30,8 +32,14 @@ export class ZRuleBodyRequiresActivationKey implements CanActivate {
     const user = await this._security.extract(request);
     const tick = new Date().getTime();
 
-    ZAssert.claim(user.activator.exp > tick, 'The activation key has expired.  Please send yourself another activation key.')
-      .claim(user.activator.key === activation.key, 'The activation key does not match.  Please try again or send yourself another activation key.')
+    ZAssert.claim(
+      user.activator.exp > tick,
+      "The activation key has expired.  Please send yourself another activation key.",
+    )
+      .claim(
+        user.activator.key === activation.key,
+        "The activation key does not match.  Please try again or send yourself another activation key.",
+      )
       .assert((msg) => new ForbiddenException(msg));
 
     return true;

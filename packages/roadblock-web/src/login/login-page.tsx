@@ -1,11 +1,16 @@
-import { CircularProgress, Grid } from '@mui/material';
-import { IZLogin } from '@zthun/works.core';
-import { ZAlertBuilder } from '@zthun/works.message';
-import { useAlertService, useErrorHandler, useIdentityAndWatch } from '@zthun/works.react';
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { useProfileService } from '../profile/profile-service.context';
-import { ZLoginTabs } from './login-tabs';
+import { CircularProgress, Grid } from "@mui/material";
+import type { IZLogin } from "@zthun/works.core";
+import { ZAlertBuilder } from "@zthun/works.message";
+import {
+  useAlertService,
+  useErrorHandler,
+  useIdentityAndWatch,
+} from "@zthun/works.react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+
+import { useProfileService } from "../profile/profile-service.context";
+import { ZLoginTabs } from "./login-tabs";
 
 /**
  * Renders the login page.
@@ -30,7 +35,9 @@ export function ZLoginPage(): JSX.Element {
     try {
       setWorking(true);
       const profile = await profileSvc.login(login);
-      alerts.create(new ZAlertBuilder().success().message('Login successful.').build());
+      alerts.create(
+        new ZAlertBuilder().success().message("Login successful.").build(),
+      );
       setWorking(false);
       logged.set(profile);
     } catch (err) {
@@ -51,7 +58,12 @@ export function ZLoginPage(): JSX.Element {
       setWorking(true);
       const profile = await profileSvc.create(login);
       await profileSvc.login(login);
-      alerts.create(new ZAlertBuilder().success().message('Account created successfully.').build());
+      alerts.create(
+        new ZAlertBuilder()
+          .success()
+          .message("Account created successfully.")
+          .build(),
+      );
       setWorking(false);
       logged.set(profile);
     } catch (err) {
@@ -71,7 +83,14 @@ export function ZLoginPage(): JSX.Element {
     try {
       setWorking(true);
       await profileSvc.recover(login);
-      alerts.create(new ZAlertBuilder().success().message('Check your email, and if it is registered, you will get a one time password you can use to login.').build());
+      alerts.create(
+        new ZAlertBuilder()
+          .success()
+          .message(
+            "Check your email, and if it is registered, you will get a one time password you can use to login.",
+          )
+          .build(),
+      );
     } catch (err) {
       errors.handle(err);
     } finally {
@@ -85,7 +104,13 @@ export function ZLoginPage(): JSX.Element {
    * @returns The jsx that contains the loading progress.
    */
   function createProgressLoading() {
-    return <CircularProgress className='ZLoginPage-progress-loading' data-testid='ZLoginPage-progress-loading' color='inherit' />;
+    return (
+      <CircularProgress
+        className="ZLoginPage-progress-loading"
+        data-testid="ZLoginPage-progress-loading"
+        color="inherit"
+      />
+    );
   }
 
   /**
@@ -94,7 +119,15 @@ export function ZLoginPage(): JSX.Element {
    * @returns The jsx that renders the login tabs.
    */
   function createTabs() {
-    return <ZLoginTabs onLoginCredentialsChange={handleLogin} onCreateCredentialsChange={handleCreate} onRecoverCredentialsChange={handleRecover} disabled={working} loading={working} />;
+    return (
+      <ZLoginTabs
+        onLoginCredentialsChange={handleLogin}
+        onCreateCredentialsChange={handleCreate}
+        onRecoverCredentialsChange={handleRecover}
+        disabled={working}
+        loading={working}
+      />
+    );
   }
 
   /**
@@ -103,7 +136,7 @@ export function ZLoginPage(): JSX.Element {
    * @returns The jsx that renders a redirection.
    */
   function createRedirect() {
-    return <Redirect data-testid='ZLoginPage-redirect-profile' to='/profile' />;
+    return <Redirect data-testid="ZLoginPage-redirect-profile" to="/profile" />;
   }
 
   /**
@@ -126,7 +159,13 @@ export function ZLoginPage(): JSX.Element {
   const content = createContent();
 
   return (
-    <Grid container={true} spacing={3} justifyContent='center' className='ZLoginPage-root' data-testid='ZLoginPage-root'>
+    <Grid
+      container={true}
+      spacing={3}
+      justifyContent="center"
+      className="ZLoginPage-root"
+      data-testid="ZLoginPage-root"
+    >
       <Grid item={true}>{content}</Grid>
     </Grid>
   );

@@ -1,13 +1,15 @@
 /* eslint-disable require-jsdoc */
-import { IZLogin, ZLoginBuilder } from '@zthun/works.core';
-import { createMocked } from '@zthun/works.jest';
-import { Response } from 'express';
-import { ZTokensController } from './tokens.controller';
-import { ZTokensService } from './tokens.service';
-import { plainToClass } from 'class-transformer';
-import { ZTokensLoginDto } from './tokens-login.dto';
+import type { IZLogin } from "@zthun/works.core";
+import { ZLoginBuilder } from "@zthun/works.core";
+import { createMocked } from "@zthun/works.jest";
+import { plainToClass } from "class-transformer";
+import type { Response } from "express";
 
-describe('TokensController', () => {
+import { ZTokensController } from "./tokens.controller";
+import type { ZTokensService } from "./tokens.service";
+import { ZTokensLoginDto } from "./tokens-login.dto";
+
+describe("TokensController", () => {
   let credentials: IZLogin;
   let res: jest.Mocked<Response>;
   let jwt: jest.Mocked<ZTokensService>;
@@ -17,17 +19,21 @@ describe('TokensController', () => {
   }
 
   beforeEach(() => {
-    jwt = createMocked(['inject', 'clear']);
+    jwt = createMocked(["inject", "clear"]);
     jwt.inject.mockReturnValue(Promise.resolve());
     jwt.clear.mockReturnValue(Promise.resolve());
 
-    credentials = new ZLoginBuilder().email('gambit@marvel.com').password('sure').autoConfirm().build();
+    credentials = new ZLoginBuilder()
+      .email("gambit@marvel.com")
+      .password("sure")
+      .autoConfirm()
+      .build();
 
-    res = createMocked(['sendStatus']);
+    res = createMocked(["sendStatus"]);
   });
 
-  describe('Login', () => {
-    it('can login', async () => {
+  describe("Login", () => {
+    it("can login", async () => {
       // Arrange
       const target = createTestTarget();
       const login = plainToClass(ZTokensLoginDto, credentials);
@@ -37,7 +43,7 @@ describe('TokensController', () => {
       expect(jwt.inject).toHaveBeenCalledWith(res, credentials);
     });
 
-    it('returns no content.', async () => {
+    it("returns no content.", async () => {
       // Arrange
       const target = createTestTarget();
       const login = plainToClass(ZTokensLoginDto, credentials);
@@ -48,15 +54,15 @@ describe('TokensController', () => {
     });
   });
 
-  describe('Logout', () => {
-    it('clears the cookie.', async () => {
+  describe("Logout", () => {
+    it("clears the cookie.", async () => {
       // Arrange
       const target = createTestTarget();
       // Act
       await target.logout(res);
     });
 
-    it('returns no content.', async () => {
+    it("returns no content.", async () => {
       // Arrange
       const target = createTestTarget();
       // Act
@@ -66,8 +72,8 @@ describe('TokensController', () => {
     });
   });
 
-  describe('Verify', () => {
-    it('returns no content.', async () => {
+  describe("Verify", () => {
+    it("returns no content.", async () => {
       // Arrange
       const target = createTestTarget();
       // Act

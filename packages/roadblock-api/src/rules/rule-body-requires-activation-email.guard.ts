@@ -1,7 +1,9 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { IZProfileActivation, ZAssert } from '@zthun/works.core';
-import { ZSecurityService } from '@zthun/works.nest';
-import { Request } from 'express';
+import type { CanActivate, ExecutionContext } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
+import type { IZProfileActivation } from "@zthun/works.core";
+import { ZAssert } from "@zthun/works.core";
+import type { ZSecurityService } from "@zthun/works.nest";
+import type { Request } from "express";
 
 @Injectable()
 /**
@@ -28,7 +30,10 @@ export class ZRuleBodyRequiresActivationEmail implements CanActivate {
     const activation = request.body as IZProfileActivation;
     const user = await this._security.extract(request);
 
-    ZAssert.claim(user.email === activation.email, 'You cannot activate another user.').assert((msg) => new ForbiddenException(msg));
+    ZAssert.claim(
+      user.email === activation.email,
+      "You cannot activate another user.",
+    ).assert((msg) => new ForbiddenException(msg));
 
     return true;
   }
