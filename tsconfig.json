@@ -1,10 +1,5 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": "packages",
-    "target": "esnext",
-    "paths": {}
-  },
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "extends": ["@zthun/janitor-ts-config/base"],
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["**/node_modules/**"]
 }
