@@ -16,12 +16,9 @@
   },
   "author": "Anthony Bonta",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "files": [
-    "dist",
-    "images"
+    "dist"
   ],
   "devDependencies": {
     "react": "^19.3.0",

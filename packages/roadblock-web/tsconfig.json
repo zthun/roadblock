@@ -1,17 +1,9 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "declaration": false,
-    "sourceMap": true,
-    "paths": {
-      "@zthun/works.url": ["../works.url/src/index"],
-      "@zthun/works.core": ["../works.core/src/index"],
-      "@zthun/works.react": ["../works.react/src/index"],
-      "@zthun/works.draw": ["../works.draw/src/index"],
-      "@zthun/works.themes": ["../works.themes"]
-    }
-  },
-  "include": ["src/**/*.tsx", "src/**/*.ts"]
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "extends": [
+    "@zthun/janitor-ts-config/base",
+    "@zthun/janitor-ts-config/browser",
+    "@zthun/janitor-ts-config/react"
+  ],
+  "include": ["**/*.ts", "**/*.mts", "**/*.tsx"]
 }
