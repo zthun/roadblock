@@ -5,6 +5,7 @@
   "author": "Anthony Bonta",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/zthun/roadblock"
@@ -14,7 +15,8 @@
   ],
   "scripts": {
     "clean": "rimraf 'dist' 'docs' 'reports' '*.tgz' '*.log' 'packages/**/dist' 'packages/**/docs' 'packages/**/*.tgz' 'packages/**/*.log'",
-    "test": "jest --coverage --runInBand",
+    "check": "tsc --noEmit",
+    "test": "vitest run --coverage",
     "lint": "eslint",
     "build": "lerna run build",
     "make": "yarn clean && yarn lint && yarn test && yarn build",
