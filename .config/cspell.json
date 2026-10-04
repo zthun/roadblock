@@ -8,6 +8,7 @@
     "DOCKERHUB",
     "favicons",
     "htmlhint",
+    "libc",
     "markdownlint",
     "microservices",
     "midground",
