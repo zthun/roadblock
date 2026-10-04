@@ -3,6 +3,9 @@ WORKDIR /usr/dev
 COPY . .
 RUN yarn install
 
+FROM setup as check
+RUN yarn check
+
 FROM setup as analyze
 RUN yarn lint
 
