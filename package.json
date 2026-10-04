@@ -14,7 +14,7 @@
     "packages/*"
   ],
   "scripts": {
-    "clean": "rimraf --glob 'coverage' '*.tgz' '*.log' 'packages/**/dist' 'packages/**/*.tgz' 'packages/**/*.log' 'packages/**/stats'",
+    "clean": "rimraf --glob 'coverage' '*.tgz' '*.log' 'packages/**/dist' 'packages/**/*.tgz' 'packages/**/*.log' 'packages/**/coverage'",
     "check": "tsc --noEmit",
     "test": "vitest run --coverage",
     "lint": "eslint",
