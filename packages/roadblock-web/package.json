@@ -1,6 +1,6 @@
 {
   "name": "@zthun/roadblock-web",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "The web client for the roadblock application.",
   "repository": {
     "type": "git",
