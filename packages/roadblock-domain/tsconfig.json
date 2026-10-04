@@ -1,0 +1,5 @@
+{
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "extends": ["@zthun/janitor-ts-config/base"],
+  "include": ["**/*.ts", "**/*.mts"]
+}
