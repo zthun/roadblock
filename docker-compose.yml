@@ -1,8 +1,23 @@
 services:
-  roadblock-services-web:
+  roadblock.local.zthunworks.com: 
+    image: zthun/bouncer-cli
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./.config:/.config
+    depends_on:
+      - roadblock-web
+      - roadblock-api
+  roadblock-web:
     image: node:lts
-    container_name: roadblock-web
     volumes:
       - .:/usr/dev
     working_dir: /usr/dev
-    command: yarn workspace @zthun/roadblock-web debug
+    command: yarn workspace @zthun/roadblock-web start
+  roadblock-api:
+    image: node:lts
+    volumes:
+      - .:/usr/dev
+    working_dir: /usr/dev
+    command: yarn workspace @zthun/roadblock-api debug

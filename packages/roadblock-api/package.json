@@ -1,0 +1,41 @@
+{
+  "name": "@zthun/roadblock-api",
+  "version": "2.0.0",
+  "description": "A sample api demoing how roadblock should be used in the backend.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zthun/roadblock",
+    "directory": "packages/roadblock-api"
+  },
+  "scripts": {
+    "build": "vite build",
+    "debug": "this should use swc"
+  },
+  "author": "Anthony Bonta",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@nestjs/common": "^12.1.2",
+    "@nestjs/core": "^12.1.2",
+    "@nestjs/platform-express": "^12.1.2",
+    "@nestjs/swagger": "^12.0.2",
+    "helmet": "^8.3.0",
+    "lodash-es": "^4.18.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^12.1.2",
+    "@zthun/janitor-ts-config": "^21.1.3",
+    "@zthun/janitor-vite": "^21.2.4",
+    "supertest": "^7.3.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.3",
+    "vitest-mock-extended": "^5.1.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false
+}
