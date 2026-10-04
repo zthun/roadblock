@@ -11,8 +11,8 @@ export default {
       },
       domains: {
         "roadblock.local.zthunworks.com": {
-          "/": "http://romulator-web:5173",
-          "/api": "http://romulator-api:3000",
+          "/": "http://roadblock-web:5173",
+          "/api": "http://roadblock-api:3000",
         },
       },
     },
