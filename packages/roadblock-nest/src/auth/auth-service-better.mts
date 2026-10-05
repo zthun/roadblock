@@ -20,25 +20,32 @@ export class ZRoadblockAuthServiceBetter implements IZRoadblockAuthService {
     secret,
     domains = [],
   }: IZRoadblockAuthServiceOptions) {
-    const trustedOrigins = uniq(["127.0.0.1", "localhost", ...domains]).flatMap(
-      (d) => [
-        // Root domains with protocols
-        `http://${d}`,
-        `https://${d}`,
-        // Root domains with ports
-        `http://${d}:*`,
-        `https://${d}:*`,
-        // All subdomains
-        `http://*.${d}`,
-        `https://*.${d}`,
-        // All subdomains and ports
-        `http://*.${d}:*`,
-        `https://*.${d}:*`,
-      ],
-    );
+    const _protocols = ["http", "https"];
+    const _domains = uniq(["127.0.0.1", "localhost", ...domains]);
+
+    const allowedHosts = _domains.flatMap((d) => [
+      d,
+      `${d}:*`,
+      `*.${d}`,
+      `*.${d}:*`,
+    ]);
+
+    const trustedOrigins = _domains.flatMap((d) => {
+      return _protocols.flatMap((p) => [
+        // Root domain
+        `${p}://${d}`,
+        // Root domain with ports
+        `${p}://${d}:*`,
+        // Subdomains
+        `${p}://*.${d}`,
+        // Subdomains with ports
+        `${p}://*.${d}:*`,
+      ]);
+    });
 
     return betterAuth({
       secret,
+      baseURL: { allowedHosts, protocol: "auto" },
       trustedOrigins,
       database: memoryAdapter({
         user: [],
