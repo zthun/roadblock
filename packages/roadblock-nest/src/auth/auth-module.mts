@@ -49,14 +49,6 @@ export class ZRoadblockAuthModule implements NestModule {
 
   public configure() {
     const adapter = this.http.httpAdapter;
-
-    /*
-    adapter.enableCors({
-      origin: this.auth.options.trustedOrigins,
-      credentials: true,
-    });
-    */
-
     adapter.getInstance().all(`/api/auth/{*path}`, this.auth.nodeHandler);
     adapter.use(json());
     adapter.use(urlencoded({ extended: true }));
