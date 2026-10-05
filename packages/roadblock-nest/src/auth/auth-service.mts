@@ -14,6 +14,15 @@ export interface IZRoadblockAuthServiceOptions {
    * The secret used to sign and encrypt authentication data.
    */
   secret?: string;
+
+  /**
+   * The list of domains to trust.
+   *
+   * Domains, 127.0.0.1 and localhost are always trusted.
+   *
+   * This trusts the root domain, subdomains, and all ports.
+   */
+  domains?: string[];
 }
 
 export interface IZRoadblockAuthService {

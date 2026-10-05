@@ -7,6 +7,7 @@ import { type Auth, betterAuth } from "better-auth";
 import { memoryAdapter } from "better-auth/adapters/memory";
 import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import { Request } from "express";
+import { uniq } from "lodash-es";
 
 import {
   IZRoadblockAuthService,
@@ -15,9 +16,30 @@ import {
 
 @Injectable()
 export class ZRoadblockAuthServiceBetter implements IZRoadblockAuthService {
-  public static create({ secret }: IZRoadblockAuthServiceOptions) {
+  public static create({
+    secret,
+    domains = [],
+  }: IZRoadblockAuthServiceOptions) {
+    const trustedOrigins = uniq(["127.0.0.1", "localhost", ...domains]).flatMap(
+      (d) => [
+        // Root domains with protocols
+        `http://${d}`,
+        `https://${d}`,
+        // Root domains with ports
+        `http://${d}:*`,
+        `https://${d}:*`,
+        // All subdomains
+        `http://*.${d}`,
+        `https://*.${d}`,
+        // All subdomains and ports
+        `http://*.${d}:*`,
+        `https://*.${d}:*`,
+      ],
+    );
+
     return betterAuth({
       secret,
+      trustedOrigins,
       database: memoryAdapter({
         user: [],
         session: [],
