@@ -24,6 +24,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "lodash-es": "^4.18.1"
+  },
   "devDependencies": {
     "@types/lodash-es": "^4",
     "@zthun/janitor-ts-config": "^21.1.3",
@@ -35,8 +38,5 @@
   "files": [
     "dist"
   ],
-  "sideEffects": false,
-  "dependencies": {
-    "lodash-es": "^4.18.1"
-  }
+  "sideEffects": false
 }

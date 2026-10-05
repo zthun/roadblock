@@ -1,7 +1,5 @@
 import { cloneDeep, isUndefined, omitBy } from "lodash-es";
 
-import { type IZFullName, ZFullNameBuilder } from "../full-name/full-name.mjs";
-
 /**
  * Represents a person whom you can identify.
  *
@@ -10,20 +8,16 @@ import { type IZFullName, ZFullNameBuilder } from "../full-name/full-name.mjs";
  */
 export interface IZIdentity {
   /**
+   * The id of the identity record.
+   */
+  id?: string;
+
+  /**
    * The user's email address.
    *
    * This is the primary login.
    */
   email?: string;
-
-  /**
-   * The person's name.
-   *
-   * This can be used for display purposes.
-   *
-   * Hello (FirstName), welcome to (My App).
-   */
-  name?: IZFullName;
 }
 
 /**
@@ -37,7 +31,6 @@ export interface IZIdentity {
  * ```ts
  * const identity = new ZIdentityBuilder()
  *   .email("jane@example.com")
- *   .name(new ZFullNameBuilder().given("Jane").family("Doe").build())
  *   .build();
  * ```
  */
@@ -45,13 +38,29 @@ export class ZIdentityBuilder {
   private _identity: IZIdentity = {};
 
   /**
+   * Sets the id of the person record.
+   *
+   * @param id -
+   *        The id of the person
+   *
+   * @returns
+   *        This builder
+   *
+   */
+  public id(id?: string): this {
+    this._identity.id = id;
+
+    return this;
+  }
+
+  /**
    * Sets the person's email address.
    *
    * @param email -
-   *        The email address used as the primary login.
+   *        The email address used as the primary login
    *
    * @returns
-   *        This builder for chaining.
+   *        This builder
    */
   public email(email?: string): this {
     this._identity.email = email;
@@ -59,43 +68,25 @@ export class ZIdentityBuilder {
   }
 
   /**
-   * Sets the person's full name.
-   *
-   * @param name -
-   *        The full name to copy.  If you pass undefined,
-   *        the name property will be removed.
-   *
-   * @returns
-   *        This builder for chaining.
-   */
-  public name(name?: IZFullName): this {
-    this._identity.name = name
-      ? new ZFullNameBuilder().copy(name).build()
-      : undefined;
-
-    return this;
-  }
-
-  /**
    * Copies another identity into this builder, replacing its current fields.
    *
    * @param other -
-   *        The identity to copy, including its name when present.
+   *        The identity to copy, including its name when present
    *
    * @returns
-   *        This builder for chaining.
+   *        This builder
    */
   public copy(other: IZIdentity): this {
     this._identity = { ...other };
 
-    return this.name(other.name);
+    return this;
   }
 
   /**
    * Creates an identity from the current fields.
    *
    * @returns
-   *        A new identity and name unaffected by later builder changes.
+   *        A new identity and name unaffected by later builder changes
    */
   public build(): IZIdentity {
     const clone = cloneDeep(this._identity);
