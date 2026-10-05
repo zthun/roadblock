@@ -1,5 +1,5 @@
 services:
-  roadblock.local.zthunworks.com: 
+  roadblock.local.zthunworks.com:
     image: zthun/bouncer-cli
     ports:
       - 80:80
