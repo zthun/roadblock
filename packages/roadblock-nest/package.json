@@ -28,7 +28,8 @@
     "@zthun/helpful-fn": "^10.0.2",
     "@zthun/roadblock-domain": "^2.1.0",
     "better-auth": "^1.7.7",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "lodash-es": "^4.18.1"
   },
   "devDependencies": {
     "@nestjs/common": "^12.1.2",
