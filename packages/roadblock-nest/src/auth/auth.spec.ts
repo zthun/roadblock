@@ -6,8 +6,8 @@ import type { AuthClient } from "better-auth/client";
 import { createAuthClient } from "better-auth/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import type { IZRoadblockAuthModuleOptions } from "./auth-module.mjs";
 import { ZRoadblockAuthModule } from "./auth-module.mjs";
+import type { IZRoadblockAuthServiceOptions } from "./auth-service.mjs";
 
 describe("ZRoadblockAuthModule", () => {
   const _secret =
@@ -16,7 +16,7 @@ describe("ZRoadblockAuthModule", () => {
   let _target: INestApplication | undefined;
 
   const createTestTarget = async (
-    options: Partial<IZRoadblockAuthModuleOptions> = { secret: _secret },
+    options: Partial<IZRoadblockAuthServiceOptions> = { secret: _secret },
   ) => {
     const { secret = _secret, ...rest } = options;
 
@@ -43,7 +43,7 @@ describe("ZRoadblockAuthModule", () => {
     await _target?.close();
   });
 
-  it("should register the auth client endpoints", async () => {
+  it("should be able to create a new account by a sign up", async () => {
     // Arrange.
     const name = "Administrator";
     const email = "admin@zthunworks.com";
