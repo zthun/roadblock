@@ -18,7 +18,12 @@ export class ZRoadblockAuthServiceBetter implements IZRoadblockAuthService {
   public static create({ secret }: IZRoadblockAuthServiceOptions) {
     return betterAuth({
       secret,
-      database: memoryAdapter({}),
+      database: memoryAdapter({
+        user: [],
+        session: [],
+        account: [],
+        verification: [],
+      }),
       emailAndPassword: { enabled: true },
     });
   }
