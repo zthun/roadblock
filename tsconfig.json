@@ -1,5 +1,11 @@
 {
   "$schema": "https://www.schemastore.org/tsconfig",
   "extends": ["@zthun/janitor-ts-config/base"],
+  "compilerOptions": {
+    "paths": {
+      "@zthun/roadblock-domain": ["./packages/roadblock-domain/src/index.mts"],
+      "@zthun/roadblock-nest": ["./packages/roadblock-nest/src/index.mts"]
+    }
+  },
   "include": ["**/*.ts", "**/*.mts", "**/*.tsx"]
 }
