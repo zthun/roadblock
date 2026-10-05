@@ -5,5 +5,10 @@
     "@zthun/janitor-ts-config/node",
     "@zthun/janitor-ts-config/nest-js"
   ],
+  "compilerOptions": {
+    "paths": {
+      "@zthun/roadblock-nest": ["../roadblock-nest/src/index.mts"]
+    }
+  },
   "include": ["**/*.ts", "**/*.mts", "**/*.tsx"]
 }

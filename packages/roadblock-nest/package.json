@@ -24,11 +24,19 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@zthun/helpful-fn": "^10.0.2",
+    "@zthun/roadblock-domain": "^2.1.0",
+    "better-auth": "^1.7.7",
+    "express": "^5.2.1"
+  },
   "devDependencies": {
     "@nestjs/common": "^12.1.2",
     "@nestjs/core": "^12.1.2",
     "@zthun/janitor-ts-config": "^21.1.3",
     "@zthun/janitor-vite": "^21.2.4",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
     "typescript": "^6.0.3",
     "vite": "^8.3.1",
     "vitest": "^5.0.3",
