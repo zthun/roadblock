@@ -1,6 +1,5 @@
 import type { IZComponentWidth } from "@zthun/fashion-boutique";
 import {
-  useCss,
   useFashionTheme,
   ZButton,
   ZCard,
@@ -9,7 +8,7 @@ import {
   ZTextInput,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed } from "@zthun/fashion-tailor";
-import { css, cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
+import { cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
 import { useState } from "react";
 
 export interface IZRoadblockEmailPasswordForm extends IZComponentWidth {}
@@ -22,14 +21,9 @@ export function ZRoadblockEmailPasswordForm({
   const [password, setPassword] = useState("");
   const canLogin = !!email && !!password;
 
-  const className = useCss(css`
-    & {
-    }
-  `);
-
   return (
     <ZCard
-      className={cssJoinDefined("ZRoadblockEmailPasswordForm-root", className)}
+      className={cssJoinDefined("ZRoadblockEmailPasswordForm-root")}
       width={width}
       TitleProps={{
         avatar: <ZIconFontAwesome name="lock" width={ZSizeFixed.Small} />,
