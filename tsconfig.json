@@ -4,6 +4,7 @@
   "compilerOptions": {
     "paths": {
       "@zthun/roadblock-domain": ["./packages/roadblock-domain/src/index.mts"],
+      "@zthun/roadblock-react": ["./packages/roadblock-react/src/index.mts"],
       "@zthun/roadblock-nest": ["./packages/roadblock-nest/src/index.mts"]
     }
   },
