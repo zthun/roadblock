@@ -2,10 +2,14 @@ import {
   ZBannerMain,
   ZFashionThemeContext,
   ZImage,
+  ZNavigate,
+  ZRoute,
+  ZRouteMap,
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed } from "@zthun/fashion-tailor";
 import ZFashionThemeDark from "@zthun/fashion-theme-dark";
-import { ZRoadblockEmailPasswordForm } from "@zthun/roadblock-react";
+
+import { ZRoadblockLoginPage } from "../login/login-page";
 
 export function ZRoadblockApp() {
   return (
@@ -23,7 +27,10 @@ export function ZRoadblockApp() {
           subHeading: "Who are you?",
         }}
       >
-        <ZRoadblockEmailPasswordForm width={ZSizeFixed.Large} />
+        <ZRouteMap>
+          <ZRoute path="/login" element={<ZRoadblockLoginPage />} />
+          <ZRoute path="" element={<ZNavigate to="/login" />} />
+        </ZRouteMap>
       </ZBannerMain>
     </ZFashionThemeContext>
   );
