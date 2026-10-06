@@ -29,10 +29,11 @@
     "@zthun/helpful-react": "^10.0.2",
     "@zthun/janitor-ts-config": "^21.1.3",
     "@zthun/janitor-vite": "^21.2.4",
+    "history": "^5.3.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "typescript": "^6.0.3",
-    "vite": "^8.3.2",
+    "vite": "^8.3.3",
     "vitest": "^5.0.3",
     "vitest-mock-extended": "^5.1.1"
   },
