@@ -9,7 +9,9 @@ import {
 } from "@zthun/fashion-boutique";
 import { ZSizeFixed } from "@zthun/fashion-tailor";
 import { cssJoinDefined, ZOrientation } from "@zthun/helpful-fn";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
+import { useAuthService } from "../auth/authentication-service.mjs";
 
 export interface IZRoadblockEmailPasswordForm extends IZComponentWidth {}
 
@@ -20,6 +22,11 @@ export function ZRoadblockEmailPasswordForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const canLogin = !!email && !!password;
+  const service = useAuthService();
+
+  const handleSignIn = useCallback(() => {
+    void service.authenticate({ email, password });
+  }, [email, password, service]);
 
   return (
     <ZCard
@@ -36,7 +43,12 @@ export function ZRoadblockEmailPasswordForm({
           gap={ZSizeFixed.Medium}
           justify={{ content: "flex-end" }}
         >
-          <ZButton fashion={primary} label="Login" disabled={!canLogin} />
+          <ZButton
+            fashion={primary}
+            label="Sign In"
+            disabled={!canLogin}
+            onClick={handleSignIn}
+          />
         </ZStack>
       }
     >
