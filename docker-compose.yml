@@ -21,3 +21,6 @@ services:
       - .:/usr/dev
     working_dir: /usr/dev
     command: yarn workspace @zthun/roadblock-api debug
+    environment:
+      ZTHUNWORKS_ROADBLOCK_SECRET: ${ZTHUNWORKS_ROADBLOCK_SECRET}
+      ZTHUNWORKS_ROADBLOCK_DOMAINS: ${ZTHUNWORKS_ROADBLOCK_DOMAINS}
