@@ -21,7 +21,8 @@
     "@zthun/fashion-tailor": "^15.0.2",
     "@zthun/helpful-fn": "^10.0.2",
     "@zthun/helpful-query": "^10.0.2",
-    "@zthun/helpful-react": "^10.0.2"
+    "@zthun/helpful-react": "^10.0.2",
+    "better-auth": "^1.7.7"
   },
   "devDependencies": {
     "@zthun/cirque": "^7.2.14",
