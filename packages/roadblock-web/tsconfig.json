@@ -5,5 +5,11 @@
     "@zthun/janitor-ts-config/browser",
     "@zthun/janitor-ts-config/react"
   ],
+  "compilerOptions": {
+    "paths": {
+      "@zthun/roadblock-domain": ["../roadblock-domain/src/index.mts"],
+      "@zthun/roadblock-react": ["../roadblock-react/src/index.mts"]
+    }
+  },
   "include": ["**/*.ts", "**/*.mts", "**/*.tsx"]
 }
